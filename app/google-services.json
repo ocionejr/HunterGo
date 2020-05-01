@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "578483931002",
+    "firebase_url": "https://hunter-go-e2547.firebaseio.com",
+    "project_id": "hunter-go-e2547",
+    "storage_bucket": "hunter-go-e2547.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578483931002:android:a9c413603640c51dff78c3",
+        "android_client_info": {
+          "package_name": "com.example.huntergo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578483931002-1uqivj79lpkfmb960635aj10qspd9n56.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.huntergo",
+            "certificate_hash": "e305976e6b89a85368adefe504922179417a3f49"
+          }
+        },
+        {
+          "client_id": "578483931002-6dcpa2dtp1srd57mekiqfocsr5sg7kb1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmf0A9AvuiSM1hQGxX0U5or4XYErSFk50"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578483931002-6dcpa2dtp1srd57mekiqfocsr5sg7kb1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
