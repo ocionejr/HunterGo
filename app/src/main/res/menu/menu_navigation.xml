@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/inventarioSelect"
+        android:title="Inventário"
+        android:icon="@drawable/ic_inventario"/>
+
+    <item
+        android:id="@+id/mapaSelect"
+        android:title="Mapa"
+        android:icon="@drawable/ic_mapa"/>
+
+    <item
+        android:id="@+id/sairSelect"
+        android:title="Sair"
+        android:icon="@drawable/ic_sair"/>
+</menu>

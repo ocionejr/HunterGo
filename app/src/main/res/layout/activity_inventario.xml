@@ -2,16 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/llMaps"
+    android:id="@+id/clInventario"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MapsActivity">
+    tools:context=".InventarioActivity" >
 
-
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <Space
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />
@@ -20,7 +17,7 @@
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="12"
+        android:layout_weight="10"
         app:itemBackground="@color/branco"
         app:itemIconTint="@color/preto"
         app:itemTextColor="@color/preto"

@@ -40,6 +40,7 @@ public class MonstroDAO {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
         });
 
         return monstros;

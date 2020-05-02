@@ -13,6 +13,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -44,6 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Location loc = new Location("Start");
     ArrayList<Monstro> monstros;
     Location inicial = loc;
+    BottomNavigationView bottomNavigationView;
 
 
     @Override
@@ -51,12 +54,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        configurarBottomNav();
+        monstros = monstroDAO.getMonstros();
 
         SupportMapFragment supportMapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.map);
         supportMapFragment.getMapAsync(MapsActivity.this);
-        monstros = monstroDAO.getMonstros();
         checkPermission();
     }
 
@@ -174,11 +177,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) { mMap = googleMap; }
 
-    public void onClickLogout(View view) {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, MainActivity.class));
-    }
-
     public void gerarMonstros(LatLng latLng){
         ArrayList<LatLng> perto = getRandomLocations(latLng, 50);
         if (monstros.isEmpty()){
@@ -252,5 +250,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         return randomPoints;
 
+    }
+
+    public void configurarBottomNav(){
+        bottomNavigationView = findViewById(R.id.bottomNav);
+        bottomNavigationView.setSelectedItemId(R.id.mapaSelect);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.inventarioSelect:
+                        startActivity(new Intent(getApplicationContext(), InventarioActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+
+                    case R.id.mapaSelect:
+                        return true;
+
+                    case R.id.sairSelect:
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        return true;
+                }
+
+                return false;
+            }
+        });
     }
 }
