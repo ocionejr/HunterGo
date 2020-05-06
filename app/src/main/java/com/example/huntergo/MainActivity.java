@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        updateUI(currentUser, false);
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -89,12 +89,20 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("Firebase", "signInWithCredential:success");
+                            boolean novoUsuario;
+
+                            if(task.getResult().getAdditionalUserInfo().isNewUser()){
+                                novoUsuario = true;
+                            } else{
+                                novoUsuario= false;
+                            }
+
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            updateUI(user, novoUsuario);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("Erro", "signInWithCredential:failure", task.getException());
-                            updateUI(null);
+                            updateUI(null, false);
                         }
 
                         // ...
@@ -102,15 +110,19 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateUI(FirebaseUser currentUser) {
+    private void updateUI(FirebaseUser currentUser, boolean novo) {
         if (currentUser != null) {
-            //User already signed in with google, facebook or emailAndPassword account
 
             Log.d("UPDATE_USER>\n", "UID: " + currentUser.getUid() +
                     "\nProviderId: " + currentUser.getProviderId() +
                     "\nName: " + currentUser.getDisplayName() +
                     "\nEmail: " + currentUser.getEmail());
-            startActivity(new Intent(this, MapsActivity.class));
+
+            if(novo){
+                startActivity(new Intent(this, ClasseActivity.class));
+            } else {
+                startActivity(new Intent(this, MapsActivity.class));
+            }
         } else{
             mGoogleSignInClient.signOut();
         }
