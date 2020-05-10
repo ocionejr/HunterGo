@@ -14,11 +14,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.huntergo.Classes.Monstro;
-import com.example.huntergo.DAO.MonstroDAO;
+import com.example.huntergo.CRUD.MonstroCRUD;
 
 import android.location.LocationListener;
 
@@ -41,7 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private int AccessLocation = 123;
-    private MonstroDAO monstroDAO = new MonstroDAO();
+    private MonstroCRUD monstroCRUD = new MonstroCRUD();
     private boolean primeiraVez = true;
     Location loc = new Location("Start");
     ArrayList<Monstro> monstros;
@@ -55,7 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         configurarBottomNav();
-        monstros = monstroDAO.getMonstros();
+        monstros = monstroCRUD.getMonstros();
 
         SupportMapFragment supportMapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.map);
@@ -271,6 +270,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     case R.id.sairSelect:
                         FirebaseAuth.getInstance().signOut();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
                         return true;
                 }
 

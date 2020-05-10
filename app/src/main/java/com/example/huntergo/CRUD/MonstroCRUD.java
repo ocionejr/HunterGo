@@ -1,4 +1,4 @@
-package com.example.huntergo.DAO;
+package com.example.huntergo.CRUD;
 
 import android.util.Log;
 
@@ -9,16 +9,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MonstroDAO {
+public class MonstroCRUD {
 
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("basededados").child("monstros");
     private ArrayList<Monstro> monstros;
+
 
     public ArrayList<Monstro> getMonstros(){
         monstros = new ArrayList<>();
@@ -34,12 +33,15 @@ public class MonstroDAO {
                 for(Monstro m : monstros){
                     Log.d("Monstro nome", m.getNome());
                 }
+
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
 
         });
 
