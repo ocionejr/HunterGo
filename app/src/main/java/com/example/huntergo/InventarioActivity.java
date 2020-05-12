@@ -39,8 +39,7 @@ public class InventarioActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.sairSelect:
-                        FirebaseAuth.getInstance().signOut();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(), PopupActivity.class));
                         return true;
                 }
 

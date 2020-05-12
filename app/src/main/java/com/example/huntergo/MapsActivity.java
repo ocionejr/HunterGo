@@ -268,9 +268,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         return true;
 
                     case R.id.sairSelect:
-                        FirebaseAuth.getInstance().signOut();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        finish();
+                        startActivity(new Intent(getApplicationContext(), PopupActivity.class));
                         return true;
                 }
 
