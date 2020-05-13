@@ -28,6 +28,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,6 +47,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList<Monstro> monstros;
     Location inicial = loc;
     BottomNavigationView bottomNavigationView;
+    Marker marker;
 
 
     @Override
@@ -54,7 +56,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         configurarBottomNav();
-        monstros = monstroCRUD.getMonstros();
 
         SupportMapFragment supportMapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.map);
@@ -141,20 +142,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         runOnUiThread(new Runnable() {
                               @Override
                               public void run() {
-                                  mMap.clear();
+
                                   LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
-                                  mMap.addMarker(new MarkerOptions().position(latLng).title("Jogador")
-                                  .icon(BitmapDescriptorFactory.fromResource(R.drawable.esqueleto)));
-                                  mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                                  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f));
-                                  mMap.getUiSettings().setZoomControlsEnabled(true);
-                                  Log.d("teste", "Localizacao");
 
                                   if(primeiraVez == true || loc.distanceTo(inicial) > 50){
                                       primeiraVez = false;
                                       gerarMonstros(latLng);
                                       inicial = loc;
                                   }
+
+                                  if (marker != null){
+                                      marker.remove();
+                                  }
+
+                                  marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Jogador")
+                                  .icon(BitmapDescriptorFactory.fromResource(R.drawable.esqueleto)));
+                                  mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                                  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f));
+                                  mMap.getUiSettings().setZoomControlsEnabled(true);
+                                  Log.d("teste", "Localizacao");
+
+
+
+
 
                               }
                         });
@@ -178,11 +188,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void gerarMonstros(LatLng latLng){
         ArrayList<LatLng> perto = getRandomLocations(latLng, 50);
-        if (monstros.isEmpty()){
-            Log.d("teste", "vazio");
-        } else{
-            Log.d("teste", "cheio");
+
+        while (monstros == null) {
+            monstros = monstroCRUD.getMonstros();
         }
+
         Monstro m;
         Random rand = new Random();
         BitmapDescriptor imagem = BitmapDescriptorFactory.fromResource(R.drawable.esqueleto);

@@ -16,12 +16,9 @@ import java.util.ArrayList;
 public class MonstroCRUD {
 
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("basededados").child("monstros");
-    private ArrayList<Monstro> monstros;
+    private ArrayList<Monstro> monstros = new ArrayList<>();
 
-
-    public ArrayList<Monstro> getMonstros(){
-        monstros = new ArrayList<>();
-
+    public MonstroCRUD() {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -44,7 +41,9 @@ public class MonstroCRUD {
 
 
         });
+    }
 
+    public ArrayList<Monstro> getMonstros(){
         return monstros;
 
     }

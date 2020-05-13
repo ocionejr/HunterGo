@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.example.huntergo.CRUD.InventarioCRUD;
 import com.example.huntergo.CRUD.JogadorCRUD;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -19,6 +20,7 @@ public class ClasseActivity extends AppCompatActivity {
     public Button btSelecionar;
     private static final String[] classes = {"Guerreiro", "Caçador", "Mago"};
     private JogadorCRUD jogadorCRUD;
+    private InventarioCRUD inventarioCRUD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class ClasseActivity extends AppCompatActivity {
         btSelecionar = findViewById(R.id.btSelecionar);
         configurarSpinner();
         jogadorCRUD = new JogadorCRUD();
+        inventarioCRUD = new InventarioCRUD();
 
     }
 
@@ -66,6 +69,7 @@ public class ClasseActivity extends AppCompatActivity {
             break;
         }
 
+        inventarioCRUD.criarInventario(uid);
         startActivity(new Intent(this, MapsActivity.class));
     }
 }
