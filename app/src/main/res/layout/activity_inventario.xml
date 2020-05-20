@@ -8,7 +8,8 @@
     android:orientation="vertical"
     tools:context=".InventarioActivity" >
 
-    <Space
+    <ListView
+        android:id="@+id/listItens"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />
@@ -16,8 +17,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="10"
+        android:layout_height="wrap_content"
         app:itemBackground="@color/branco"
         app:itemIconTint="@color/preto"
         app:itemTextColor="@color/preto"

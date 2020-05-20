@@ -271,7 +271,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 switch (item.getItemId()){
                     case R.id.inventarioSelect:
                         startActivity(new Intent(getApplicationContext(), InventarioActivity.class));
-                        overridePendingTransition(0,0);
                         return true;
 
                     case R.id.mapaSelect:
