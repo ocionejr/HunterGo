@@ -28,6 +28,7 @@ public class InventarioCRUD {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
+                    itens.clear();
                     for (DataSnapshot data2 : data.getChildren()){
                         switch (data.getKey()){
                             case "consumiveis":

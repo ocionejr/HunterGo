@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.huntergo.CRUD.InventarioCRUD;
+import com.example.huntergo.Classes.ItemInventario;
 import com.example.huntergo.Classes.Monstro;
 import com.example.huntergo.CRUD.MonstroCRUD;
 
@@ -48,12 +50,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Location inicial = loc;
     BottomNavigationView bottomNavigationView;
     Marker marker;
+    InventarioCRUD inventarioCRUD;
+    ArrayList<ItemInventario> itensInventario;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        inventarioCRUD = new InventarioCRUD();
+        inventarioCRUD.IniciarListeners(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         configurarBottomNav();
 
@@ -61,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 getSupportFragmentManager().findFragmentById(R.id.map);
         supportMapFragment.getMapAsync(MapsActivity.this);
         checkPermission();
+
     }
 
     public void checkPermission(){
@@ -270,7 +277,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.inventarioSelect:
-                        startActivity(new Intent(getApplicationContext(), InventarioActivity.class));
+                        itensInventario = inventarioCRUD.getInventario();
+                        Intent intent = new Intent(getApplicationContext(), InventarioActivity.class);
+                        intent.putParcelableArrayListExtra("itensInventario", itensInventario);
+                        startActivity(intent);
                         return true;
 
                     case R.id.mapaSelect:

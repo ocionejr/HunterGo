@@ -21,25 +21,25 @@ public class InventarioActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     String uid;
     InventarioCRUD inventarioCRUD;
+    ArrayList<ItemInventario> itens;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventario);
 
+        configurarBottomNav();
+
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         inventarioCRUD = new InventarioCRUD();
         inventarioCRUD.IniciarListeners(uid);
-        ArrayList<ItemInventario> itens = inventarioCRUD.getInventario();
 
-
-        for (ItemInventario item : itens){
-            Log.d("inventario", item.getId());
-            Log.d("inventario", item.getTipo());
+        itens = getIntent().getParcelableArrayListExtra("itensInventario");
+        for (ItemInventario item2 : itens){
+            Log.d("inventario", item2.getId());
+            Log.d("inventario", item2.getTipo());
         }
 
-
-        configurarBottomNav();
     }
 
     public void configurarBottomNav(){
@@ -54,7 +54,7 @@ public class InventarioActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.mapaSelect:
-                        ArrayList<ItemInventario> itens = inventarioCRUD.getInventario();
+                       itens = inventarioCRUD.getInventario();
 
 
                         for (ItemInventario item2 : itens){
