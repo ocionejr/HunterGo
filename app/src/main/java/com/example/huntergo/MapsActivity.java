@@ -39,26 +39,27 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private int AccessLocation = 123;
-    private MonstroCRUD monstroCRUD = new MonstroCRUD();
+    private MonstroCRUD monstroCRUD = MonstroCRUD.getINSTANCE();
     private boolean primeiraVez = true;
-    Location loc = new Location("Start");
-    ArrayList<Monstro> monstros;
-    Location inicial = loc;
-    BottomNavigationView bottomNavigationView;
-    Marker marker;
-    InventarioCRUD inventarioCRUD;
-    ArrayList<ItemInventario> itensInventario;
+    private Location loc = new Location("Start");
+    private ArrayList<Monstro> monstros;
+    private Location inicial = loc;
+    private BottomNavigationView bottomNavigationView;
+    private Marker marker;
+    private InventarioCRUD inventarioCRUD;
+    private Marker markerMonstro;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        inventarioCRUD = new InventarioCRUD();
+        inventarioCRUD = InventarioCRUD.getINSTANCE();
         inventarioCRUD.IniciarListeners(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         configurarBottomNav();
@@ -168,10 +169,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                   mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f));
                                   mMap.getUiSettings().setZoomControlsEnabled(true);
                                   Log.d("teste", "Localizacao");
-
-
-
-
+                                  marker.setTag("Jogador");
 
                               }
                         });
@@ -191,7 +189,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) { mMap = googleMap; }
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.setOnMarkerClickListener(this);
+    }
 
     public void gerarMonstros(LatLng latLng){
         ArrayList<LatLng> perto = getRandomLocations(latLng, 50);
@@ -222,11 +223,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
 
-            mMap.addMarker(new MarkerOptions()
+            markerMonstro = mMap.addMarker(new MarkerOptions()
                 .position(l)
                 .title(m.getNome())
                 .icon(imagem)
             );
+
+            markerMonstro.setTag(m);
+
         }
     }
 
@@ -277,9 +281,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.inventarioSelect:
-                        itensInventario = inventarioCRUD.getInventario();
                         Intent intent = new Intent(getApplicationContext(), InventarioActivity.class);
-                        intent.putParcelableArrayListExtra("itensInventario", itensInventario);
                         startActivity(intent);
                         return true;
 
@@ -294,5 +296,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        if(marker.getTag() != "Jogador"){
+            Monstro monstro = (Monstro) marker.getTag();
+            Intent intent = new Intent(getApplicationContext(), CombateActivity.class);
+            intent.putExtra("monstro", monstro);
+            startActivity(intent);
+        }
+
+        return false;
     }
 }

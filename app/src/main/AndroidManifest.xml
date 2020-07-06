@@ -17,8 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PopupActivity"
-            android:theme="@style/AppTheme.PopMe"></activity>
+        <activity android:name=".CombateActivity"></activity>
+        <activity
+            android:name=".PopupActivity"
+            android:theme="@style/AppTheme.PopMe" />
         <activity android:name=".ClasseActivity" />
         <activity android:name=".InventarioActivity" />
         <!--

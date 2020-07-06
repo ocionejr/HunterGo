@@ -1,10 +1,8 @@
 package com.example.huntergo.CRUD;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
-import com.example.huntergo.Classes.Monstro;
+import com.example.huntergo.Classes.Consumivel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -13,48 +11,39 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MonstroCRUD {
+public class ConsumivelCRUD {
 
-    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("basededados").child("monstros");
-    private ArrayList<Monstro> monstros = new ArrayList<>();
-    private static MonstroCRUD INSTANCE;
+    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("basededados").child("consumiveis");
+    private ArrayList<Consumivel> consumiveis = new ArrayList<>();
+    private static ConsumivelCRUD INSTANCE;
 
-    public static final MonstroCRUD getINSTANCE(){
+    public static final ConsumivelCRUD getINSTANCE(){
         if (INSTANCE == null){
-            INSTANCE = new MonstroCRUD();
+            INSTANCE = new ConsumivelCRUD();
         }
 
         return INSTANCE;
     }
 
-    private MonstroCRUD() {
+    public ConsumivelCRUD() {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d("teste", "onDataChange");
                 for(DataSnapshot data : dataSnapshot.getChildren()){
-                    monstros.add(data.getValue(Monstro.class));
+                    Consumivel consumivel = data.getValue(Consumivel.class);
+                    consumivel.setId(Integer.parseInt(data.getKey()));
+                    consumiveis.add(consumivel);
                 }
-
-                for(Monstro m : monstros){
-                    Log.d("Monstro nome", m.getNome());
-                }
-
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-
-
         });
     }
 
-    public ArrayList<Monstro> getMonstros(){
-        return monstros;
-
+    public ArrayList<Consumivel> getConsumiveis(){
+        return consumiveis;
     }
-
 }

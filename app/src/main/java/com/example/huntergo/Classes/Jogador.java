@@ -20,6 +20,9 @@ public class Jogador {
         this.podermagico = podermagico;
     }
 
+    public Jogador() {
+    }
+
     public int getVida() {
         return vida;
     }

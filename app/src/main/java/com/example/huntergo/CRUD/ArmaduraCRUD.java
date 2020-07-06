@@ -1,10 +1,8 @@
 package com.example.huntergo.CRUD;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
-import com.example.huntergo.Classes.Monstro;
+import com.example.huntergo.Classes.Armadura;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -13,48 +11,39 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MonstroCRUD {
+public class ArmaduraCRUD {
+    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("basededados").child("armaduras");
+    private ArrayList<Armadura> armaduras = new ArrayList<>();
+    private static ArmaduraCRUD INSTANCE;
 
-    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("basededados").child("monstros");
-    private ArrayList<Monstro> monstros = new ArrayList<>();
-    private static MonstroCRUD INSTANCE;
-
-    public static final MonstroCRUD getINSTANCE(){
+    public static final ArmaduraCRUD getINSTANCE(){
         if (INSTANCE == null){
-            INSTANCE = new MonstroCRUD();
+            INSTANCE = new ArmaduraCRUD();
         }
 
         return INSTANCE;
     }
 
-    private MonstroCRUD() {
+    private ArmaduraCRUD() {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d("teste", "onDataChange");
                 for(DataSnapshot data : dataSnapshot.getChildren()){
-                    monstros.add(data.getValue(Monstro.class));
+                    Armadura armadura = data.getValue(Armadura.class);
+                    armadura.setId(Integer.parseInt(data.getKey()));
+                    armaduras.add(armadura);
+
                 }
-
-                for(Monstro m : monstros){
-                    Log.d("Monstro nome", m.getNome());
-                }
-
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-
-
         });
     }
 
-    public ArrayList<Monstro> getMonstros(){
-        return monstros;
-
+    public ArrayList<Armadura> getArmaduras(){
+        return armaduras;
     }
-
 }

@@ -19,6 +19,18 @@ public class InventarioCRUD {
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("basededados").child("inventario");
     private String uid;
     private  ArrayList<ItemInventario> itens = new ArrayList<>();
+    private static InventarioCRUD INSTANCE;
+
+    public static final InventarioCRUD getINSTANCE(){
+        if (INSTANCE == null){
+            INSTANCE = new InventarioCRUD();
+        }
+
+        return INSTANCE;
+    }
+
+    private InventarioCRUD() {
+    }
 
     public void IniciarListeners(String uid) {
         this.uid = uid;
@@ -32,19 +44,19 @@ public class InventarioCRUD {
                     for (DataSnapshot data2 : data.getChildren()){
                         switch (data.getKey()){
                             case "consumiveis":
-                                itens.add(new ItemInventario(data2.getKey(), (int)(long)data2.getValue(), "consumivel", R.drawable.esqueleto));
+                                itens.add(new ItemInventario(Integer.parseInt(data2.getKey()), (int)(long)data2.getValue(), "consumivel", R.drawable.esqueleto));
                                 break;
 
                             case "armas":
-                                itens.add(new ItemInventario(data2.getKey(), (int)(long)data2.getValue(), "arma", R.drawable.esqueleto));
+                                itens.add(new ItemInventario(Integer.parseInt(data2.getKey()), (int)(long)data2.getValue(), "arma", R.drawable.esqueleto));
                                 break;
 
                             case "armaduras":
-                                itens.add(new ItemInventario(data2.getKey(), (int)(long)data2.getValue(), "armadura", R.drawable.esqueleto));
+                                itens.add(new ItemInventario(Integer.parseInt(data2.getKey()), (int)(long)data2.getValue(), "armadura", R.drawable.esqueleto));
                                 break;
 
                             default:
-                                itens.add(new ItemInventario("erro", 2, data.getKey(), 22));
+                                itens.add(new ItemInventario(99, 2, data.getKey(), 22));
                                 break;
                         }
 

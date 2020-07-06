@@ -30,8 +30,8 @@ public class ClasseActivity extends AppCompatActivity {
         spinner = findViewById(R.id.spinner);
         btSelecionar = findViewById(R.id.btSelecionar);
         configurarSpinner();
-        jogadorCRUD = new JogadorCRUD();
-        inventarioCRUD = new InventarioCRUD();
+        jogadorCRUD = JogadorCRUD.getINSTANCE();
+        inventarioCRUD = InventarioCRUD.getINSTANCE();
 
     }
 

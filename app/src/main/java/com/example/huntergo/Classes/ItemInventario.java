@@ -3,14 +3,14 @@ package com.example.huntergo.Classes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ItemInventario implements Parcelable {
+public class ItemInventario  {
 
-    private String id;
+    private int id;
     private int quantidade;
     private String tipo;
     private int image;
 
-    public ItemInventario(String id, int quantidade, String tipo, int image) {
+    public ItemInventario(int id, int quantidade, String tipo, int image) {
         this.id = id;
         this.quantidade = quantidade;
         this.tipo = tipo;
@@ -19,29 +19,17 @@ public class ItemInventario implements Parcelable {
 
 
     protected ItemInventario(Parcel in) {
-        id = in.readString();
+        id = in.readInt();
         quantidade = in.readInt();
         tipo = in.readString();
         image = in.readInt();
     }
 
-    public static final Creator<ItemInventario> CREATOR = new Creator<ItemInventario>() {
-        @Override
-        public ItemInventario createFromParcel(Parcel in) {
-            return new ItemInventario(in);
-        }
-
-        @Override
-        public ItemInventario[] newArray(int size) {
-            return new ItemInventario[size];
-        }
-    };
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -69,16 +57,5 @@ public class ItemInventario implements Parcelable {
         this.image = image;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeInt(quantidade);
-        dest.writeString(tipo);
-        dest.writeInt(image);
-    }
 }

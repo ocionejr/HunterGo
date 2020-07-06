@@ -8,6 +8,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.example.huntergo.CRUD.ArmaCRUD;
+import com.example.huntergo.CRUD.ArmaduraCRUD;
+import com.example.huntergo.CRUD.ConsumivelCRUD;
+import com.example.huntergo.CRUD.InventarioCRUD;
+import com.example.huntergo.CRUD.ItensEquipadorsCRUD;
+import com.example.huntergo.CRUD.JogadorCRUD;
+import com.example.huntergo.CRUD.MonstroCRUD;
+import com.example.huntergo.Classes.Consumivel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -26,11 +34,26 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9000;
+    private ArmaCRUD armaCRUD;
+    private ArmaduraCRUD armaduraCRUD;
+    private ConsumivelCRUD consumivelCRUDCRUD;
+    private InventarioCRUD inventarioCRUD;
+    private ItensEquipadorsCRUD itensEquipadorsCRUD;
+    private JogadorCRUD jogadorCRUD;
+    private MonstroCRUD monstroCRUD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        armaCRUD = ArmaCRUD.getINSTANCE();
+        armaduraCRUD = ArmaduraCRUD.getINSTANCE();
+        consumivelCRUDCRUD = ConsumivelCRUD.getINSTANCE();
+        inventarioCRUD = InventarioCRUD.getINSTANCE();
+        itensEquipadorsCRUD = ItensEquipadorsCRUD.getINSTANCE();
+        jogadorCRUD = JogadorCRUD.getINSTANCE();
+        monstroCRUD = MonstroCRUD.getINSTANCE();
 
         Log.d("teste", "OnCreate");
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -117,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                     "\nProviderId: " + currentUser.getProviderId() +
                     "\nName: " + currentUser.getDisplayName() +
                     "\nEmail: " + currentUser.getEmail());
-
+            jogadorCRUD.IniciarListeners(FirebaseAuth.getInstance().getCurrentUser().getUid());
             if(novo){
                 startActivity(new Intent(this, ClasseActivity.class));
             } else {

@@ -8,6 +8,18 @@ import com.google.firebase.database.FirebaseDatabase;
 public class ItensEquipadorsCRUD {
 
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("basededados").child("itensEquipados");
+    private static ItensEquipadorsCRUD INSTANCE;
+
+    public static final ItensEquipadorsCRUD getINSTANCE(){
+        if (INSTANCE == null){
+            INSTANCE = new ItensEquipadorsCRUD();
+        }
+
+        return INSTANCE;
+    }
+
+    private ItensEquipadorsCRUD() {
+    }
 
     public void criarEquipGuerreiro(String uid){
         ItensEquipados itensEquipados = new ItensEquipados("002", "005", "002");

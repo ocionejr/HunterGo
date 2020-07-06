@@ -2,13 +2,18 @@ package com.example.huntergo.Classes;
 
 public class Arma {
 
+    private int id;
     private int dano;
     private int mao;
     private String nome;
     private String tipo;
     private int velocidade;
 
-    public Arma(int dano, int mao, String nome, String tipo, int velocidade) {
+    public Arma() {
+    }
+
+    public Arma(int id, int dano, int mao, String nome, String tipo, int velocidade) {
+        this.id = id;
         this.dano = dano;
         this.mao = mao;
         this.nome = nome;
@@ -54,5 +59,13 @@ public class Arma {
 
     public void setVelocidade(int velocidade) {
         this.velocidade = velocidade;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
