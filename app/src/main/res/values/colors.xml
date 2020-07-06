@@ -5,4 +5,6 @@
     <color name="colorAccent">#D81B60</color>
     <color name="branco">#FFFFFF</color>
     <color name="preto">#000000</color>
+    <color name="telalogin">#5b5f63</color>
+    <color name="botaopopup">#6f7478</color>
 </resources>

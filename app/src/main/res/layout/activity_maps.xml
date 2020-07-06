@@ -20,8 +20,8 @@
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemBackground="@color/branco"
-        app:itemIconTint="@color/preto"
-        app:itemTextColor="@color/preto"
+        app:itemBackground="@color/botaopopup"
+        app:itemIconTint="@color/branco"
+        app:itemTextColor="@color/branco"
         app:menu="@menu/menu_navigation" />
 </LinearLayout>

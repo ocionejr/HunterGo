@@ -164,7 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                   }
 
                                   marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Jogador")
-                                  .icon(BitmapDescriptorFactory.fromResource(R.drawable.esqueleto)));
+                                  .icon(BitmapDescriptorFactory.fromResource(R.drawable.chartest)));
                                   mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                                   mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f));
                                   mMap.getUiSettings().setZoomControlsEnabled(true);
