@@ -141,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
                     "\nName: " + currentUser.getDisplayName() +
                     "\nEmail: " + currentUser.getEmail());
             jogadorCRUD.IniciarListeners(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            itensEquipadorsCRUD.IniciarListeners(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
             if(novo){
                 startActivity(new Intent(this, ClasseActivity.class));
             } else {

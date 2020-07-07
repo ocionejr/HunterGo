@@ -12,6 +12,9 @@ public class ItensEquipados {
         this.armadura = armadura;
     }
 
+    public ItensEquipados() {
+    }
+
     public String getMaoDireita() {
         return maoDireita;
     }
