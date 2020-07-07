@@ -1,9 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/telaCombate"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_go"
+    android:orientation="vertical"
     tools:context=".CombateActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/img_monstro"
+            android:layout_width="match_parent"
+            android:layout_height="302dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/txt2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#9F953F"
+            android:backgroundTint="#9F953F"
+            android:text="Vida Monstro:"
+            android:textAlignment="textEnd"
+            android:textColor="@color/branco"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/vida_monstro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#9F953F"
+            android:textAlignment="textEnd"
+            android:textColor="#F44336"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#9F953F"
+            android:text="Vida Jogador:"
+            android:textColor="@color/branco"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/vida_jogador"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#9F953F"
+            android:textColor="#009688"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/evento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#9F953F"
+            android:textColor="@color/branco"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/action"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:background="#9F953F"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/div1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/atk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#DCD068"
+                android:onClick="ataque"
+                android:text="Ataque" />
+
+            <Button
+                android:id="@+id/spatk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#DCD068"
+                android:text="Ataque Especial" />
+
+            <Button
+                android:id="@+id/def"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#DCD068"
+                android:onClick="defesa"
+                android:text="Defesa" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/div2"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:backgroundTint="#DCD068"
+                android:text="Itens" />
+
+            <Button
+                android:id="@+id/run"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#DCD068"
+                android:onClick="fugir"
+                android:text="Fugir" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
