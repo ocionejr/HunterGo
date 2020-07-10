@@ -3,15 +3,21 @@ package com.example.huntergo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.huntergo.CRUD.JogadorCRUD;
 import com.example.huntergo.Classes.Jogador;
 import com.example.huntergo.Classes.Monstro;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class CombateActivity extends AppCompatActivity {
     private Monstro monstro;
@@ -21,6 +27,10 @@ public class CombateActivity extends AppCompatActivity {
     private TextView vida_j;
     private TextView vida_m;
     private TextView evt;
+    private ProgressBar hp_p;
+    private ProgressBar mp_p;
+    private ProgressBar hp_m;
+    private int hp_monster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +41,24 @@ public class CombateActivity extends AppCompatActivity {
         jogadorCRUD = JogadorCRUD.getINSTANCE();
         jogador = jogadorCRUD.getJogador();
         img_monstro = (ImageView) findViewById(R.id.img_monstro);
-        jogador.setVida(100);
-        vida_j = findViewById(R.id.vida_jogador);
-        vida_m = findViewById(R.id.vida_monstro);
         evt = findViewById(R.id.evento);
-        vida_j.setText(Integer.toString(jogador.getVida()));
-        vida_m.setText(Integer.toString(monstro.getVida()));
+        hp_p = findViewById(R.id.hp_player);
+        hp_p.getProgressDrawable().setColorFilter(
+                Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN);
+        hp_p.setProgress(jogador.getVida());
+        hp_p.setScaleY(3f);
+        hp_m = findViewById(R.id.hp_monster);
+        hp_m.getProgressDrawable().setColorFilter(
+                Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
+        hp_monster = monstro.getVida();
+        hp_m.setMax(hp_monster);
+        hp_m.setProgress(hp_monster);
+        hp_m.setScaleY(3f);
+        mp_p = findViewById(R.id.mp_player);
+        mp_p.getProgressDrawable().setColorFilter(
+                Color.CYAN, android.graphics.PorterDuff.Mode.SRC_IN);
+        mp_p.setProgress(jogador.getMana());
+        mp_p.setScaleY(3f);
 
         if(monstro.getNome().equals("Esqueleto")){
             img_monstro.setImageResource(R.drawable.esqueleto_combate);
@@ -53,47 +75,81 @@ public class CombateActivity extends AppCompatActivity {
     }
 
     public void fugir(View v){
-        evt.setText("Fugiu! Galinha, covarde!");
+        evt.setText(" Fugindo! Covarde!");
         startActivity(new Intent(getApplicationContext(), MapsActivity.class));
     }
 
     public void ataque(View v){
-        evt.setText("Atacou! Continue assim!");
+        int vi = monstro.getAtaque();
+        evt.setText(" Atacou! +"+jogador.getAtaque()+"   -"+vi);
         if(jogador.getVelocidade() >= monstro.getVelocidade()){
-            int vida2 = monstro.getVida();
-            vida2 = vida2 - jogador.getAtaque();
-            monstro.setVida(vida2);
+            hp_monster = hp_monster - jogador.getAtaque();
+            hp_m.setProgress(hp_monster);
             /*if(monstro.getVida() == 0){
 
             }*/
             int vida = jogador.getVida() + (jogador.getDefesa() / 2);
             vida = vida - monstro.getAtaque();
             jogador.setVida(vida);
+            hp_p.setProgress(jogador.getVida());
             /*if(jogador.getVida() == 0){
 
             }*/
-            vida_j.setText(Integer.toString(jogador.getVida()));
-            vida_m.setText(Integer.toString(monstro.getVida()));
         }
         if(jogador.getVelocidade() < monstro.getVelocidade()){
             int vida = jogador.getVida() + (jogador.getDefesa() / 2);
             vida = vida - monstro.getAtaque();
             jogador.setVida(vida);
+            hp_p.setProgress(jogador.getVida());
             /*if(jogador.getVida() == 0){
 
             }*/
-            int vida2 = monstro.getVida();
-            vida2 = vida2 - jogador.getAtaque();
-            monstro.setVida(vida2);
+            hp_monster = hp_monster - jogador.getAtaque();
+            hp_m.setProgress(hp_monster);
             /*if(monstro.getVida() == 0){
 
             }*/
-            vida_j.setText(Integer.toString(jogador.getVida()));
-            vida_m.setText(Integer.toString(monstro.getVida()));
         }
     }
 
     public void defesa(View v){
-        evt.setText("Defendeu! Cuidado com os ataques!");
+        evt.setText(" Defendeu! -1");
+        int vida = jogador.getVida() - 1;
+        jogador.setVida(vida);
+        hp_p.setProgress(jogador.getVida());
+    }
+
+    public void especial(View v){
+        int vi = monstro.getAtaque();
+        evt.setText(" Ataque especial! +"+jogador.getPodermagico()+"   -"+vi);
+        if(jogador.getVelocidade() >= monstro.getVelocidade()){
+            hp_monster = hp_monster - jogador.getAtaque();
+            hp_m.setProgress(hp_monster);
+            /*if(monstro.getVida() == 0){
+
+            }*/
+            int vida = jogador.getVida() + (jogador.getDefesa() / 2);
+            vida = vida - monstro.getAtaque();
+            jogador.setVida(vida);
+            hp_p.setProgress(jogador.getVida());
+            /*if(jogador.getVida() == 0){
+
+            }*/
+        }
+        if(jogador.getVelocidade() < monstro.getVelocidade()){
+            int vida = jogador.getVida() + (jogador.getDefesa() / 2);
+            vida = vida - monstro.getAtaque();
+            jogador.setVida(vida);
+            hp_p.setProgress(jogador.getVida());
+            /*if(jogador.getVida() == 0){
+
+            }*/
+            hp_monster = hp_monster - jogador.getPodermagico();
+            hp_m.setProgress(hp_monster);
+            int mana = jogador.getMana();
+            /*if(monstro.getVida() == 0){
+
+            }*/
+        }
     }
 }

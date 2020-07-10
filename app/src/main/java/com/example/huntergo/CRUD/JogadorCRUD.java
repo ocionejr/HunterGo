@@ -31,19 +31,19 @@ public class JogadorCRUD {
     }
 
     public void criarGuerreiro(String UID){
-        Jogador jog = new Jogador("Guerreiro", 100, 10, 15, 5, 9, 3);
+        Jogador jog = new Jogador("Guerreiro", 100, 100, 15, 5, 8, 10);
         reference.child(UID).setValue(jog);
         itensEquipadorsCRUD.criarEquipGuerreiro(UID);
     }
 
     public void criarCaçador(String UID){
-        Jogador jog = new Jogador("Caçador", 100, 20, 20, 3, 14, 8);
+        Jogador jog = new Jogador("Caçador", 100, 100, 20, 3, 12, 15);
         reference.child(UID).setValue(jog);
         itensEquipadorsCRUD.criarEquipCacador(UID);
     }
 
     public void criarMago(String UID){
-        Jogador jog = new Jogador("Mago", 100, 40, 8, 2, 11, 20);
+        Jogador jog = new Jogador("Mago", 100, 100, 10, 2, 10, 20);
         reference.child(UID).setValue(jog);
         itensEquipadorsCRUD.criarEquipMago(UID);
     }
