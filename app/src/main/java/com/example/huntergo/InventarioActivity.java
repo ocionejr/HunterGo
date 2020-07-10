@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.huntergo.CRUD.ArmaCRUD;
@@ -18,11 +19,13 @@ import com.example.huntergo.CRUD.ArmaduraCRUD;
 import com.example.huntergo.CRUD.ConsumivelCRUD;
 import com.example.huntergo.CRUD.InventarioCRUD;
 import com.example.huntergo.CRUD.ItensEquipadorsCRUD;
+import com.example.huntergo.CRUD.JogadorCRUD;
 import com.example.huntergo.Classes.Arma;
 import com.example.huntergo.Classes.Armadura;
 import com.example.huntergo.Classes.Consumivel;
 import com.example.huntergo.Classes.ItemInventario;
 import com.example.huntergo.Classes.ItensEquipados;
+import com.example.huntergo.Classes.Jogador;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -44,6 +47,8 @@ public class InventarioActivity extends AppCompatActivity {
     ArrayList<ItemInventario> itens;
     ItensEquipados itensEquipados;
     LinearLayout.LayoutParams params;
+    JogadorCRUD jogadorCRUD;
+    Jogador jogador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +63,14 @@ public class InventarioActivity extends AppCompatActivity {
         armaduraCRUD = ArmaduraCRUD.getINSTANCE();
         consumivelCRUD = ConsumivelCRUD.getINSTANCE();
         itensEquipadorsCRUD = ItensEquipadorsCRUD.getINSTANCE();
+        jogadorCRUD = JogadorCRUD.getINSTANCE();
 
         armas = armaCRUD.getArmas();
         armaduras = armaduraCRUD.getArmaduras();
         consumiveis = consumivelCRUD.getConsumiveis();
         itens = inventarioCRUD.getInventario();
         itensEquipados = itensEquipadorsCRUD.getItensEquipados();
+        jogador = jogadorCRUD.getJogador();
         params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -72,6 +79,7 @@ public class InventarioActivity extends AppCompatActivity {
 
         configurarItemList();
         configurarItensEquipados();
+        configurarStatus();
     }
 
     private void configurarBottomNav(){
@@ -320,5 +328,21 @@ public class InventarioActivity extends AppCompatActivity {
                 itensEquipadosView.addView(v);
             }
         }
+    }
+
+    private void configurarStatus(){
+        TextView textVida = findViewById(R.id.textVida);
+        TextView textMana = findViewById(R.id.textMana);
+        TextView textAtaque = findViewById(R.id.textAtaque);
+        TextView textDefesa = findViewById(R.id.textDefesa);
+        TextView textVelocidade = findViewById(R.id.textVelocidade);
+        TextView textPoder = findViewById(R.id.textPoder);
+
+        textVida.setText(jogador.getVida() + "/" + "100");
+        textMana.setText(jogador.getMana() + "/" + "100");
+        textAtaque.setText(jogador.getAtaque() + "/" + "100");
+        textDefesa.setText(jogador.getDefesa() + "/" + "100");
+        textVelocidade.setText(jogador.getVelocidade() + "/" + "100");
+        textPoder.setText(jogador.getPodermagico() + "/" + "100");
     }
 }
