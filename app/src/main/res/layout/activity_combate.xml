@@ -18,16 +18,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <ProgressBar
                 android:id="@+id/hp_monster"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="300dp"
-                android:layout_marginRight="3dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -44,6 +43,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/info_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
@@ -55,17 +55,17 @@
                 android:id="@+id/hp_player"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="300dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:layout_height="wrap_content" />
+                android:layout_marginTop="5dp" />
 
             <ProgressBar
                 android:id="@+id/mp_player"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="300dp"
-                android:layout_marginTop="1dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:layout_height="wrap_content" />
+                android:layout_marginTop="1dp" />
 
             <TextView
                 android:id="@+id/evento"
@@ -109,8 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="#DCD068"
-                android:onClick="especial"
-                android:text="Ataque Especial" />
+                android:onClick="especial" />
 
             <Button
                 android:id="@+id/def"
