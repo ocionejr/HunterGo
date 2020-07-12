@@ -45,8 +45,8 @@ public class ItensEquipadorsCRUD {
 
     public void IniciarListeners(String uid) {
 
-        DatabaseReference referenceUID = reference.child(uid);
-        referenceUID.addValueEventListener(new ValueEventListener() {
+        reference = reference.child(uid);
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 itensEquipados = dataSnapshot.getValue(ItensEquipados.class);
@@ -62,4 +62,6 @@ public class ItensEquipadorsCRUD {
     public ItensEquipados getItensEquipados() {
         return itensEquipados;
     }
+
+
 }

@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class JogadorCRUD {
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("basededados").child("jogadores");
+    DatabaseReference referenceUID;
     private ItensEquipadorsCRUD itensEquipadorsCRUD = ItensEquipadorsCRUD.getINSTANCE();
     private Jogador jogador;
     private static JogadorCRUD INSTANCE;
@@ -50,7 +51,7 @@ public class JogadorCRUD {
 
     public void IniciarListeners(String uid) {
 
-        DatabaseReference referenceUID = reference.child(uid);
+        referenceUID = reference.child(uid);
         referenceUID.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -66,5 +67,9 @@ public class JogadorCRUD {
 
     public Jogador getJogador() {
         return jogador;
+    }
+
+    public void alteraVida(int vida){
+        referenceUID.child("vida").setValue(vida);
     }
 }

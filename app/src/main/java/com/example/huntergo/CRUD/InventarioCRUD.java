@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class InventarioCRUD {
 
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("basededados").child("inventario");
+    private DatabaseReference referenceUID;
     private String uid;
     private  ArrayList<ItemInventario> itens = new ArrayList<>();
     private static InventarioCRUD INSTANCE;
@@ -35,7 +36,7 @@ public class InventarioCRUD {
     public void IniciarListeners(String uid) {
         this.uid = uid;
 
-        DatabaseReference referenceUID = reference.child(uid);
+        referenceUID = reference.child(uid);
         referenceUID.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -78,5 +79,13 @@ public class InventarioCRUD {
 
     public ArrayList<ItemInventario> getInventario (){
         return itens;
+    }
+
+    public void excluirItem(String tipo, String id){
+        referenceUID.child(tipo).child(id).removeValue();
+    }
+
+    public void alterarQuantidade(String tipo, String id, int qtd){
+        referenceUID.child(tipo).child(id).setValue(qtd);
     }
 }

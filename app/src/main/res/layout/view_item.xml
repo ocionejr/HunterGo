@@ -41,6 +41,14 @@
             android:text="TextView"
             android:textSize="15sp" />
 
+        <EditText
+            android:id="@+id/idItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:ems="10"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <LinearLayout

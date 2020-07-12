@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,6 +29,8 @@ import com.example.huntergo.Classes.ItensEquipados;
 import com.example.huntergo.Classes.Jogador;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -110,17 +113,18 @@ public class InventarioActivity extends AppCompatActivity {
     }
 
     private void configurarItemList(){
-        LinearLayout listItem = findViewById(R.id.listItem);
+        final LinearLayout listItem = findViewById(R.id.listItem);
         Log.d("Comsumiveis", "z");
 
         for(ItemInventario item : itens){
             Log.d("Comsumiveis", item.getTipo());
-            View v = View.inflate(this, R.layout.view_item, null);
+            final View v = View.inflate(this, R.layout.view_item, null);
 
-            TextView nomeItem= v.findViewById(R.id.nomeItem);
-            TextView qtdItem = v.findViewById(R.id.quantItem);
+            final TextView nomeItem= v.findViewById(R.id.nomeItem);
+            final TextView qtdItem = v.findViewById(R.id.quantItem);
             ImageView imgItem = v.findViewById(R.id.imageView);
             TextView descItem = v.findViewById(R.id.descItem);
+            final TextView idItem = v.findViewById(R.id.idItem);
             Button btItem = v.findViewById(R.id.btItem);
             final LinearLayout detalheItem = v.findViewById(R.id.detalheItem);
             LinearLayout dadosItem = v.findViewById(R.id.dadosItem);
@@ -131,6 +135,7 @@ public class InventarioActivity extends AppCompatActivity {
                         nomeItem.setText(arma.getNome());
                         qtdItem.setText(item.getQuantidade());
                         imgItem.setImageResource(item.getImage());
+                        idItem.setText(item.getId());
                         String desc = "Dano: " + arma.getDano() +
                                       "\nVelocidade: "  +  arma.getVelocidade() +
                                       "\nMão: " + arma.getMao();
@@ -144,6 +149,7 @@ public class InventarioActivity extends AppCompatActivity {
                         nomeItem.setText(armadura.getNome());
                         qtdItem.setText(item.getQuantidade());
                         imgItem.setImageResource(item.getImage());
+                        idItem.setText(item.getId());
                         String desc = "Defesa: " + armadura.getDefesa() +
                                 "\nVelocidade: "  +  armadura.getVelocidade();
                         descItem.setText(desc);
@@ -152,7 +158,7 @@ public class InventarioActivity extends AppCompatActivity {
                 }
             } else if(item.getTipo().compareTo("consumivel") == 0){
                 Log.d("Consumiveis", "a");
-                for(Consumivel consumivel : consumiveis){
+                for(final Consumivel consumivel : consumiveis){
                     Log.d("Consumiveis", "b");
                     if(consumivel.getId() == item.getId()){
                         Log.d("Consumiveis", "c");
@@ -160,7 +166,36 @@ public class InventarioActivity extends AppCompatActivity {
                         qtdItem.setText("" + item.getQuantidade());
                         imgItem.setImageResource(item.getImage());
                         descItem.setText(consumivel.getEfeito());
+                        idItem.setText("" + item.getId());
                         btItem.setText("Usar");
+
+                        btItem.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v2) {
+                                switch(consumivel.getId()){
+                                    case 1:
+                                        TextView vidaPersonagem = findViewById(R.id.textVida);
+                                        String[] vidaString = vidaPersonagem.getText().toString().split("/");
+                                        int vida = Integer.parseInt(vidaString[0]);
+                                        vida += 10;
+                                        if(vida > 100)
+                                            vida -= (vida - 100);
+
+                                        vidaPersonagem.setText(vida + "/100");
+                                        jogadorCRUD.alteraVida(vida);
+                                }
+
+                                if(Integer.parseInt(qtdItem.getText().toString()) == 1){
+                                    listItem.removeView(v);
+                                    inventarioCRUD.excluirItem("consumiveis", "00" + idItem.getText());
+
+                                }else{
+                                    int qtd = Integer.parseInt(qtdItem.getText().toString()) - 1;
+                                    inventarioCRUD.alterarQuantidade("consumiveis", "00" + idItem.getText(), qtd);
+                                    qtdItem.setText("" + qtd);
+                                }
+                            }
+                        });
                     }
                 }
             }
@@ -267,7 +302,6 @@ public class InventarioActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         dadosItem.setVisibility(LinearLayout.GONE);
                         detalheItem.setVisibility(LinearLayout.VISIBLE);
-
                     }
                 });
 
