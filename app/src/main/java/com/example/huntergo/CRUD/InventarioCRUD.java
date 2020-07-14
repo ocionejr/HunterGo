@@ -21,6 +21,7 @@ public class InventarioCRUD {
     private String uid;
     private  ArrayList<ItemInventario> itens = new ArrayList<>();
     private static InventarioCRUD INSTANCE;
+    int posicao;
 
     public static final InventarioCRUD getINSTANCE(){
         if (INSTANCE == null){
@@ -40,12 +41,15 @@ public class InventarioCRUD {
         referenceUID.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                itens.clear();
                 for (DataSnapshot data : dataSnapshot.getChildren()){
-                    itens.clear();
                     for (DataSnapshot data2 : data.getChildren()){
                         switch (data.getKey()){
                             case "consumiveis":
+                                Log.d("inventario", "consumivel: " + data2.getKey());
                                 itens.add(new ItemInventario(Integer.parseInt(data2.getKey()), (int)(long)data2.getValue(), "consumivel", R.drawable.esqueleto));
+                                posicao = itens.size();
+                                Log.d("inventario", "consumivel: " + posicao);
                                 break;
 
                             case "armas":
@@ -53,7 +57,10 @@ public class InventarioCRUD {
                                 break;
 
                             case "armaduras":
+                                Log.d("inventario", "armadura: " + data2.getKey());
                                 itens.add(new ItemInventario(Integer.parseInt(data2.getKey()), (int)(long)data2.getValue(), "armadura", R.drawable.esqueleto));
+                                posicao = itens.size();
+                                Log.d("inventario", "armadura: " + posicao);
                                 break;
 
                             default:
@@ -78,6 +85,9 @@ public class InventarioCRUD {
     }
 
     public ArrayList<ItemInventario> getInventario (){
+        for(ItemInventario itemInventario : itens){
+            Log.d("inventario", itemInventario.getTipo());
+        }
         return itens;
     }
 
@@ -87,5 +97,9 @@ public class InventarioCRUD {
 
     public void alterarQuantidade(String tipo, String id, int qtd){
         referenceUID.child(tipo).child(id).setValue(qtd);
+    }
+
+    public void adicionarArmadura(String id){
+        referenceUID.child("armaduras").child(id).setValue(1);
     }
 }

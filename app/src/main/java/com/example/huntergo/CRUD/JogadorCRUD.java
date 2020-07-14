@@ -72,4 +72,8 @@ public class JogadorCRUD {
     public void alteraVida(int vida){
         referenceUID.child("vida").setValue(vida);
     }
+
+    public void alteraMana(int mana){
+        referenceUID.child("mana").setValue(mana);
+    }
 }

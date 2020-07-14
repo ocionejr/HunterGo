@@ -63,5 +63,11 @@ public class ItensEquipadorsCRUD {
         return itensEquipados;
     }
 
+    public void desequiparArmadura(){
+        reference.child("armadura").setValue("0");
+    }
+    public void equiparArmadura(String armaduraId){
+        reference.child("armadura").setValue(armaduraId);
+    }
 
 }
