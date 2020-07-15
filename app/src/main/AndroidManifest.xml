@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CombateActivity"></activity>
+        <activity android:name=".VitoriaActivity"></activity>
+        <activity android:name=".CombateActivity" />
         <activity
             android:name=".PopupActivity"
             android:theme="@style/AppTheme.PopMe" />

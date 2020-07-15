@@ -134,6 +134,7 @@ public class CombateActivity extends AppCompatActivity {
             vida = vida - monstro.getAtaque();
             jogador.setVida(vida);
             hp_p.setProgress(jogador.getVida());
+            jogadorCRUD.alteraVida(jogador.getVida());
             /*if(jogador.getVida() == 0){
 
             }*/
@@ -153,6 +154,7 @@ public class CombateActivity extends AppCompatActivity {
             vida = vida - monstro.getAtaque();
             jogador.setVida(vida);
             hp_p.setProgress(jogador.getVida());
+            jogadorCRUD.alteraVida(jogador.getVida());
             /*if(jogador.getVida() == 0){
 
             }*/
@@ -179,6 +181,7 @@ public class CombateActivity extends AppCompatActivity {
             hp_m.setProgress(hp_monster);
             jogador.setMana(jogador.getMana() - 20);
             mp_p.setProgress(jogador.getMana());
+            jogadorCRUD.alteraMana(jogador.getMana());
             /*if(monstro.getVida() == 0){
 
             }*/
@@ -186,6 +189,7 @@ public class CombateActivity extends AppCompatActivity {
             vida = vida - monstro.getAtaque();
             jogador.setVida(vida);
             hp_p.setProgress(jogador.getVida());
+            jogadorCRUD.alteraVida(jogador.getVida());
             /*if(jogador.getVida() == 0){
 
             }*/
@@ -195,6 +199,7 @@ public class CombateActivity extends AppCompatActivity {
             vida = vida - monstro.getAtaque();
             jogador.setVida(vida);
             hp_p.setProgress(jogador.getVida());
+            jogadorCRUD.alteraVida(jogador.getVida());
             /*if(jogador.getVida() == 0){
 
             }*/
@@ -202,6 +207,7 @@ public class CombateActivity extends AppCompatActivity {
             hp_m.setProgress(hp_monster);
             jogador.setMana(jogador.getMana() - 20);
             mp_p.setProgress(jogador.getMana());
+            jogadorCRUD.alteraMana(jogador.getMana());
             /*if(monstro.getVida() == 0){
 
             }*/

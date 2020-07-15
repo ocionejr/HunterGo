@@ -202,9 +202,9 @@ public class InventarioActivity extends AppCompatActivity {
                                     idItem.setText(""+armadura.getId());
 
                                     switch(armadura.getId()){
-                                        case 1: imgItem.setImageResource(R.drawable.esqueleto); break;
-                                        case 2: imgItem.setImageResource(R.drawable.esqueleto); break;
-                                        case 3: imgItem.setImageResource(R.drawable.esqueleto); break;
+                                        case 1: imgItem.setImageResource(R.drawable.leather); break;
+                                        case 2: imgItem.setImageResource(R.drawable.metal); break;
+                                        case 3: imgItem.setImageResource(R.drawable.cloth); break;
                                     }
 
                                     String desc = "Defesa: " + armadura.getDefesa() +
@@ -268,13 +268,13 @@ public class InventarioActivity extends AppCompatActivity {
                                                 qtdItem2.setText("1");
                                                 switch (armadura.getId()) {
                                                     case 1:
-                                                        imgItem2.setImageResource(R.drawable.esqueleto);
+                                                        imgItem2.setImageResource(R.drawable.leather);
                                                         break;
                                                     case 2:
-                                                        imgItem2.setImageResource(R.drawable.esqueleto);
+                                                        imgItem2.setImageResource(R.drawable.metal);
                                                         break;
                                                     case 3:
-                                                        imgItem2.setImageResource(R.drawable.esqueleto);
+                                                        imgItem2.setImageResource(R.drawable.cloth);
                                                         break;
                                                 }
                                                 idItem2.setText("" + armadura.getId());
@@ -403,12 +403,12 @@ public class InventarioActivity extends AppCompatActivity {
                 idItem.setText(""+arma.getId());
 
                 switch(arma.getId()){
-                    case 1: imgItem.setImageResource(R.drawable.esqueleto); break;
-                    case 2: imgItem.setImageResource(R.drawable.esqueleto); break;
-                    case 3: imgItem.setImageResource(R.drawable.esqueleto); break;
-                    case 4: imgItem.setImageResource(R.drawable.esqueleto); break;
-                    case 5: imgItem.setImageResource(R.drawable.esqueleto); break;
-                    case 6: imgItem.setImageResource(R.drawable.esqueleto); break;
+                    case 1: imgItem.setImageResource(R.drawable.sword); break;
+                    case 2: imgItem.setImageResource(R.drawable.sword); break;
+                    case 3: imgItem.setImageResource(R.drawable.dagger); break;
+                    case 4: imgItem.setImageResource(R.drawable.staff); break;
+                    case 5: imgItem.setImageResource(R.drawable.shield); break;
+                    case 6: imgItem.setImageResource(R.drawable.bow); break;
                 }
 
                 String desc = "Dano: " + arma.getDano() +
@@ -455,12 +455,12 @@ public class InventarioActivity extends AppCompatActivity {
                 idItem.setText(""+arma.getId());
 
                 switch(arma.getId()){
-                    case 1: imgItem.setImageResource(R.drawable.esqueleto); break;
-                    case 2: imgItem.setImageResource(R.drawable.esqueleto); break;
-                    case 3: imgItem.setImageResource(R.drawable.esqueleto); break;
-                    case 4: imgItem.setImageResource(R.drawable.esqueleto); break;
-                    case 5: imgItem.setImageResource(R.drawable.esqueleto); break;
-                    case 6: imgItem.setImageResource(R.drawable.esqueleto); break;
+                    case 1: imgItem.setImageResource(R.drawable.sword); break;
+                    case 2: imgItem.setImageResource(R.drawable.sword); break;
+                    case 3: imgItem.setImageResource(R.drawable.dagger); break;
+                    case 4: imgItem.setImageResource(R.drawable.staff); break;
+                    case 5: imgItem.setImageResource(R.drawable.shield); break;
+                    case 6: imgItem.setImageResource(R.drawable.bow); break;
                 }
 
                 String desc = "Dano: " + arma.getDano() +
@@ -511,9 +511,9 @@ public class InventarioActivity extends AppCompatActivity {
                 idItem.setText(""+armadura.getId());
 
                 switch(armadura.getId()){
-                    case 1: imgItem.setImageResource(R.drawable.esqueleto); break;
-                    case 2: imgItem.setImageResource(R.drawable.esqueleto); break;
-                    case 3: imgItem.setImageResource(R.drawable.esqueleto); break;
+                    case 1: imgItem.setImageResource(R.drawable.leather); break;
+                    case 2: imgItem.setImageResource(R.drawable.metal); break;
+                    case 3: imgItem.setImageResource(R.drawable.cloth); break;
                 }
 
                 String desc = "Defesa: " + armadura.getDefesa() +
@@ -577,13 +577,13 @@ public class InventarioActivity extends AppCompatActivity {
                             qtdItem2.setText("1");
                             switch (armadura.getId()) {
                                 case 1:
-                                    imgItem2.setImageResource(R.drawable.esqueleto);
+                                    imgItem2.setImageResource(R.drawable.leather);
                                     break;
                                 case 2:
-                                    imgItem2.setImageResource(R.drawable.esqueleto);
+                                    imgItem2.setImageResource(R.drawable.metal);
                                     break;
                                 case 3:
-                                    imgItem2.setImageResource(R.drawable.esqueleto);
+                                    imgItem2.setImageResource(R.drawable.cloth);
                                     break;
                             }
                             idItem2.setText("" + armadura.getId());

@@ -209,16 +209,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             m = monstros.get(rand.nextInt(monstros.size()));
 
             switch (m.getNome()){
-                case "Goblin": imagem = BitmapDescriptorFactory.fromResource(R.drawable.goblin);
+                case "Goblin": imagem = BitmapDescriptorFactory.fromResource(R.drawable.gob_head);
                 break;
 
-                case "Ogro": imagem = BitmapDescriptorFactory.fromResource(R.drawable.ogro);
+                case "Ogro": imagem = BitmapDescriptorFactory.fromResource(R.drawable.orc_head);
                 break;
 
-                case "Slime": imagem = BitmapDescriptorFactory.fromResource(R.drawable.slime);
+                case "Slime": imagem = BitmapDescriptorFactory.fromResource(R.drawable.slime_head);
                 break;
 
-                case "Esqueleto": imagem = BitmapDescriptorFactory.fromResource(R.drawable.esqueleto);
+                case "Esqueleto": imagem = BitmapDescriptorFactory.fromResource(R.drawable.skt_head);
                 break;
 
             }
