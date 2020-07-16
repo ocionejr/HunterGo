@@ -17,7 +17,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VitoriaActivity"></activity>
+        <activity android:name=".InvcomActivity"></activity>
+        <activity android:name=".InvActivity" />
+        <activity android:name=".IcActivity" />
+        <activity android:name=".InventarioCombateActivity" />
+        <activity android:name=".DerrotaActivity" />
+        <activity android:name=".VitoriaActivity" />
         <activity android:name=".CombateActivity" />
         <activity
             android:name=".PopupActivity"

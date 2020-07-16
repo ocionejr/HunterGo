@@ -305,9 +305,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Monstro monstro = (Monstro) marker.getTag();
             Intent intent = new Intent(getApplicationContext(), CombateActivity.class);
             intent.putExtra("monstro", monstro);
-            startActivity(intent);
+            startActivityForResult(intent, 2);// Activity is started with requestCode 2
         }
 
         return false;
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==2){
+            if(resultCode == 2) {
+                Intent intent = new Intent(getApplicationContext(), VitoriaActivity.class);
+                startActivityForResult(intent, 2);// Activity is started with requestCode 2
+            }else if(resultCode == 1){
+                Intent intent = new Intent(getApplicationContext(), DerrotaActivity.class);
+                startActivityForResult(intent, 2);// Activity is started with requestCode 2
+            }
+        }
     }
 }

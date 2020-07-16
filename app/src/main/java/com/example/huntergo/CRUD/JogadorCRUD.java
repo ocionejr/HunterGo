@@ -76,4 +76,16 @@ public class JogadorCRUD {
     public void alteraMana(int mana){
         referenceUID.child("mana").setValue(mana);
     }
+
+    public void alteraAtk(int atk){
+        referenceUID.child("ataque").setValue(atk);
+    }
+
+    public void alteraDef(int def){
+        referenceUID.child("defesa").setValue(def);
+    }
+
+    public void alteraSpatk(int spatk){
+        referenceUID.child("podermagico").setValue(spatk);
+    }
 }

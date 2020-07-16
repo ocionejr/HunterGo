@@ -19,17 +19,33 @@
         android:id="@+id/txt_success"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="Sucesso!"
         android:textAlignment="center"
         android:textColor="@color/branco"
         android:textSize="36sp" />
 
     <TextView
+        android:id="@+id/loot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/branco"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/loot2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/branco"
+        android:textSize="20sp" />
+
+    <TextView
         android:id="@+id/txt_up"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="20dp"
         android:text="Por favor escolha um status para upar!"
         android:textAlignment="center"
         android:textColor="@color/branco"
@@ -86,6 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:backgroundTint="@color/botaopopup"
+                android:onClick="upatk"
                 android:text="+"
                 android:textColor="@color/branco" />
 
@@ -94,6 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:backgroundTint="@color/botaopopup"
+                android:onClick="updef"
                 android:text="+"
                 android:textColor="@color/branco" />
 
@@ -102,6 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:backgroundTint="@color/botaopopup"
+                android:onClick="upspatk"
                 android:text="+"
                 android:textColor="@color/branco" />
         </LinearLayout>

@@ -106,7 +106,9 @@ public class CombateActivity extends AppCompatActivity {
 
     public void fugir(View v){
         evt.setText(" Fugindo! Covarde!");
-        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+        Intent intent=new Intent();
+        setResult(0,intent);
+        finish();//finishing activity
     }
 
     public void ataque(View v){
@@ -127,17 +129,19 @@ public class CombateActivity extends AppCompatActivity {
             }
             hp_monster = hp_monster - jogador.getAtaque() - danoArma - danoArma2;
             hp_m.setProgress(hp_monster);
-            /*if(monstro.getVida() == 0){
-
-            }*/
+            if(hp_m.getProgress() <= 0){
+                Intent intent=new Intent();
+                setResult(2,intent);
+                finish();//finishing activity
+            }
             int vida = jogador.getVida() + (jogador.getDefesa() / 2);
             vida = vida - monstro.getAtaque();
             jogador.setVida(vida);
             hp_p.setProgress(jogador.getVida());
             jogadorCRUD.alteraVida(jogador.getVida());
-            /*if(jogador.getVida() == 0){
+            if(hp_p.getProgress() <= 0){
 
-            }*/
+            }
         }
         if(jogador.getVelocidade() < monstro.getVelocidade()){
             for(Arma armas : weapon){
@@ -155,14 +159,18 @@ public class CombateActivity extends AppCompatActivity {
             jogador.setVida(vida);
             hp_p.setProgress(jogador.getVida());
             jogadorCRUD.alteraVida(jogador.getVida());
-            /*if(jogador.getVida() == 0){
-
-            }*/
+            if(hp_p.getProgress() <= 0){
+                Intent intent=new Intent();
+                setResult(1,intent);
+                finish();//finishing activity
+            }
             hp_monster = hp_monster - jogador.getAtaque() - danoArma - danoArma2;
             hp_m.setProgress(hp_monster);
-            /*if(monstro.getVida() == 0){
-
-            }*/
+            if(hp_m.getProgress() <= 0){
+                Intent intent=new Intent();
+                setResult(2,intent);
+                finish();//finishing activity
+            }
         }
     }
 
@@ -182,17 +190,21 @@ public class CombateActivity extends AppCompatActivity {
             jogador.setMana(jogador.getMana() - 20);
             mp_p.setProgress(jogador.getMana());
             jogadorCRUD.alteraMana(jogador.getMana());
-            /*if(monstro.getVida() == 0){
-
-            }*/
+            if(hp_m.getProgress() <= 0){
+                Intent intent=new Intent();
+                setResult(2,intent);
+                finish();//finishing activity
+            }
             int vida = jogador.getVida() + (jogador.getDefesa() / 2);
             vida = vida - monstro.getAtaque();
             jogador.setVida(vida);
             hp_p.setProgress(jogador.getVida());
             jogadorCRUD.alteraVida(jogador.getVida());
-            /*if(jogador.getVida() == 0){
-
-            }*/
+            if(hp_p.getProgress() <= 0){
+                Intent intent=new Intent();
+                setResult(1,intent);
+                finish();//finishing activity
+            }
         }
         if(jogador.getVelocidade() < monstro.getVelocidade()){
             int vida = jogador.getVida() + (jogador.getDefesa() / 2);
@@ -200,17 +212,21 @@ public class CombateActivity extends AppCompatActivity {
             jogador.setVida(vida);
             hp_p.setProgress(jogador.getVida());
             jogadorCRUD.alteraVida(jogador.getVida());
-            /*if(jogador.getVida() == 0){
-
-            }*/
+            if(hp_p.getProgress() <= 0){
+                Intent intent=new Intent();
+                setResult(1,intent);
+                finish();//finishing activity
+            }
             hp_monster = hp_monster - jogador.getPodermagico();
             hp_m.setProgress(hp_monster);
             jogador.setMana(jogador.getMana() - 20);
             mp_p.setProgress(jogador.getMana());
             jogadorCRUD.alteraMana(jogador.getMana());
-            /*if(monstro.getVida() == 0){
-
-            }*/
+            if(hp_m.getProgress() <= 0){
+                Intent intent=new Intent();
+                setResult(2,intent);
+                finish();//finishing activity
+            }
         }
     }
 }
