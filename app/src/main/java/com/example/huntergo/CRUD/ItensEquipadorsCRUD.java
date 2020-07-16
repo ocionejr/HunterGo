@@ -29,17 +29,17 @@ public class ItensEquipadorsCRUD {
     }
 
     public void criarEquipGuerreiro(String uid){
-        ItensEquipados itensEquipados = new ItensEquipados("002", "005", "002");
+        ItensEquipados itensEquipados = new ItensEquipados("002", "0", "002");
         reference.child(uid).setValue(itensEquipados);
     }
 
     public void criarEquipCacador(String uid){
-        ItensEquipados itensEquipados = new ItensEquipados("006", "vazio", "001");
+        ItensEquipados itensEquipados = new ItensEquipados("006", "0", "001");
         reference.child(uid).setValue(itensEquipados);
     }
 
     public void criarEquipMago(String uid){
-        ItensEquipados itensEquipados = new ItensEquipados("004", "vazio", "003");
+        ItensEquipados itensEquipados = new ItensEquipados("004", "0", "003");
         reference.child(uid).setValue(itensEquipados);
     }
 
@@ -65,6 +65,12 @@ public class ItensEquipadorsCRUD {
 
     public void desequiparArmadura(){
         reference.child("armadura").setValue("0");
+    }
+    public void desequiparMaoEsquerda(){
+        reference.child("maoEsquerda").setValue("0");
+    }
+    public void desequiparMaoDireita(){
+        reference.child("maoDireita").setValue("0");
     }
     public void equiparArmadura(String armaduraId){
         reference.child("armadura").setValue(armaduraId);

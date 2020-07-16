@@ -30,6 +30,11 @@ import com.example.huntergo.Classes.ItensEquipados;
 import com.example.huntergo.Classes.Jogador;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -53,9 +58,18 @@ public class InventarioActivity extends AppCompatActivity {
     LinearLayout.LayoutParams params;
     JogadorCRUD jogadorCRUD;
     Jogador jogador;
+    boolean achou;
+    boolean achou2;
     int idMaoDireira;
     int idMaoEsquerda;
     int idArmadura;
+    LinearLayout listItem;
+    LinearLayout itensEquipadosView;
+    DatabaseReference reference1;
+    DatabaseReference referenceUID1;
+    int posicao1;
+    DatabaseReference reference2;
+    int posicao2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +77,10 @@ public class InventarioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inventario);
 
         configurarBottomNav();
+
+        idMaoDireira = View.generateViewId();
+        idMaoEsquerda = View.generateViewId();
+        idArmadura = View.generateViewId();
 
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         inventarioCRUD = InventarioCRUD.getINSTANCE();
@@ -78,20 +96,21 @@ public class InventarioActivity extends AppCompatActivity {
         itens = inventarioCRUD.getInventario();
         itensEquipados = itensEquipadorsCRUD.getItensEquipados();
         jogador = jogadorCRUD.getJogador();
-        final LinearLayout listItem = findViewById(R.id.listItem);
+        listItem = findViewById(R.id.listItem);
+        itensEquipadosView = findViewById(R.id.itensEquipados);
         params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 1.0f
         );
 
-        idMaoDireira = View.generateViewId();
-        idMaoEsquerda = View.generateViewId();
-        idArmadura = View.generateViewId();
-
-        configurarItensEquipados();
         configurarItemList();
+        configurarItensEquipados();
         configurarStatus();
+
+        reference1 = FirebaseDatabase.getInstance().getReference("basededados").child("inventario");
+        reference2 = FirebaseDatabase.getInstance().getReference("basededados").child("itensEquipados");
+        IniciarListeners(FirebaseAuth.getInstance().getCurrentUser().getUid());
     }
 
     private void configurarBottomNav(){
@@ -140,16 +159,22 @@ public class InventarioActivity extends AppCompatActivity {
 
             if(item.getTipo().compareTo("arma") == 0){
                 for(Arma arma : armas){
-                    if(arma.getId() == item.getId()){
+                    if(arma.getId() == item.getId()) {
                         nomeItem.setText(arma.getNome());
                         qtdItem.setText(Integer.toString(item.getQuantidade()));
                         imgItem.setImageResource(item.getImage());
-                        idItem.setText(""+item.getId());
+                        idItem.setText("" + item.getId());
                         String desc = "Dano: " + arma.getDano() +
-                                      "\nVelocidade: "  +  arma.getVelocidade() +
-                                      "\nMão: " + arma.getMao();
+                                "\nVelocidade: " + arma.getVelocidade() +
+                                "\nMão: " + arma.getMao();
                         descItem.setText(desc);
-                        btItem.setText("Equipar");
+
+                        if (arma.getMao() == 2){
+                            btItem.setText("Equipar");
+                        }else{
+                            btItem.setText("Equipar Mão Direita");
+
+                        }
                     }
                 }
             }else if(item.getTipo().compareTo("armadura") == 0){
@@ -169,23 +194,24 @@ public class InventarioActivity extends AppCompatActivity {
                         btItem.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v2) {
-                                final View v3 = listItem.findViewById(idArmadura);
+                                final View v3 = itensEquipadosView.findViewById(idArmadura);
+                                Log.d("idArmadura", ""+idArmadura);
 
-                                if(v3.getTag().toString() == ""){
+                                if(v3.getTag().toString() != ""){
+                                    Log.d("Armadura", "a");
                                     Toast.makeText(getApplicationContext(), "Desequipe a armadura primeiro",
-                                            Toast.LENGTH_SHORT);
+                                            Toast.LENGTH_SHORT).show();
                                 }else {
+                                    Log.d("Armadura", "b");
                                     itensEquipadorsCRUD.equiparArmadura("00" + idItem.getText().toString());
 
                                     if (Integer.parseInt(qtdItem.getText().toString()) == 1) {
-                                        listItem.removeView(v);
                                         inventarioCRUD.excluirItem("armaduras", "00" + idItem.getText());
-
                                     } else {
                                         int qtd = Integer.parseInt(qtdItem.getText().toString()) - 1;
                                         inventarioCRUD.alterarQuantidade("armaduras", "00" + idItem.getText(), qtd);
-                                        qtdItem.setText("" + qtd);
                                     }
+<<<<<<< HEAD
 
                                     final TextView nomeItem = v3.findViewById(R.id.nomeItem);
                                     final ImageView imgItem = v3.findViewById(R.id.imageView);
@@ -302,6 +328,126 @@ public class InventarioActivity extends AppCompatActivity {
 
                                         }
                                     });
+||||||| merged common ancestors
+
+                                    final TextView nomeItem = v3.findViewById(R.id.nomeItem);
+                                    final ImageView imgItem = v3.findViewById(R.id.imageView);
+                                    TextView descItem = v3.findViewById(R.id.descItem);
+                                    Button btItem = v3.findViewById(R.id.btItem);
+                                    final TextView idItem = v3.findViewById(R.id.idItem);
+                                    v3.setTag(armadura.getId());
+                                    v3.setId(idArmadura);
+
+                                    final LinearLayout detalheItem = v3.findViewById(R.id.detalheItem);
+                                    final LinearLayout dadosItem = v3.findViewById(R.id.dadosItem);
+
+                                    nomeItem.setText("Armadura:\n\n" + armadura.getNome());
+                                    idItem.setText(""+armadura.getId());
+
+                                    switch(armadura.getId()){
+                                        case 1: imgItem.setImageResource(R.drawable.esqueleto); break;
+                                        case 2: imgItem.setImageResource(R.drawable.esqueleto); break;
+                                        case 3: imgItem.setImageResource(R.drawable.esqueleto); break;
+                                    }
+
+                                    String desc = "Defesa: " + armadura.getDefesa() +
+                                            "\nVelocidade: "  +  armadura.getVelocidade();
+                                    descItem.setText(desc);
+
+                                    dadosItem.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            dadosItem.setVisibility(LinearLayout.GONE);
+                                            detalheItem.setVisibility(LinearLayout.VISIBLE);
+
+                                        }
+                                    });
+
+                                    detalheItem.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            detalheItem.setVisibility(LinearLayout.GONE);
+                                            dadosItem.setVisibility(LinearLayout.VISIBLE);
+                                        }
+                                    });
+
+                                    btItem.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v2) {
+                                            nomeItem.setText("Armadura:\n\n" + "Nada Equipado");
+                                            imgItem.setImageResource(android.R.color.transparent);
+                                            detalheItem.setVisibility(LinearLayout.GONE);
+                                            dadosItem.setVisibility(LinearLayout.VISIBLE);
+                                            dadosItem.setOnClickListener(null);
+                                            final LinearLayout listItem = findViewById(R.id.listItem);
+                                            v3.setTag("");
+
+                                            int count = listItem.getChildCount();
+                                            boolean jaExiste = false;
+                                            for (int i = 0; i < count; i++) {
+                                                View view = listItem.getChildAt(i);
+                                                TextView id = view.findViewById(R.id.idItem);
+                                                TextView qtd = view.findViewById(R.id.quantItem);
+                                                if (id.getText().toString().compareTo(idItem.getText().toString()) == 0) {
+                                                    jaExiste = true;
+                                                    int quant = Integer.parseInt(qtd.getText().toString()) + 1;
+                                                    qtd.setText(Integer.toString(quant));
+                                                    inventarioCRUD.alterarQuantidade("armaduras", "00" + idItem.getText().toString(), quant);
+                                                }
+                                            }
+
+                                            if (!jaExiste) {
+                                                final View v4 = View.inflate(getApplicationContext(), R.layout.view_item, null);
+                                                final TextView nomeItem2 = v4.findViewById(R.id.nomeItem);
+                                                final TextView qtdItem2 = v4.findViewById(R.id.quantItem);
+                                                ImageView imgItem2 = v4.findViewById(R.id.imageView);
+                                                TextView descItem2 = v4.findViewById(R.id.descItem);
+                                                final TextView idItem2 = v4.findViewById(R.id.idItem);
+                                                Button btItem2 = v4.findViewById(R.id.btItem);
+                                                final LinearLayout detalheItem2 = v4.findViewById(R.id.detalheItem);
+                                                LinearLayout dadosItem2 = v4.findViewById(R.id.dadosItem);
+
+                                                nomeItem2.setText(armadura.getNome());
+                                                qtdItem2.setText("1");
+                                                switch (armadura.getId()) {
+                                                    case 1:
+                                                        imgItem2.setImageResource(R.drawable.esqueleto);
+                                                        break;
+                                                    case 2:
+                                                        imgItem2.setImageResource(R.drawable.esqueleto);
+                                                        break;
+                                                    case 3:
+                                                        imgItem2.setImageResource(R.drawable.esqueleto);
+                                                        break;
+                                                }
+                                                idItem2.setText("" + armadura.getId());
+                                                String desc = "Defesa: " + armadura.getDefesa() +
+                                                        "\nVelocidade: " + armadura.getVelocidade();
+                                                descItem2.setText(desc);
+                                                btItem2.setText("Equipar");
+
+                                                dadosItem2.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        if (detalheItem2.getVisibility() == LinearLayout.GONE) {
+                                                            detalheItem2.setVisibility(LinearLayout.VISIBLE);
+                                                        } else {
+                                                            detalheItem2.setVisibility(LinearLayout.GONE);
+                                                        }
+                                                    }
+                                                });
+
+                                                listItem.addView(v4);
+                                                inventarioCRUD.adicionarArmadura("00" + armadura.getId());
+                                            }
+
+                                            itensEquipadorsCRUD.desequiparArmadura();
+
+                                        }
+                                    });
+=======
+                                    Log.d("Armadura", "c");
+>>>>>>> Erro Implementação 2
                                 }
                             }
                         });
@@ -381,10 +527,11 @@ public class InventarioActivity extends AppCompatActivity {
     }
 
     private void configurarItensEquipados(){
-        LinearLayout itensEquipadosView = findViewById(R.id.itensEquipados);
-
-        for(Arma arma : armas){
+        achou = false;
+        achou2 = false;
+        for(final Arma arma : armas){
             if(arma.getId() == Integer.parseInt(itensEquipados.getMaoDireita())){
+                achou = true;
                 View v = View.inflate(this, R.layout.item_equipado, null);
                 v.setLayoutParams(params);
 
@@ -392,7 +539,7 @@ public class InventarioActivity extends AppCompatActivity {
                 ImageView imgItem = v.findViewById(R.id.imageView);
                 TextView descItem = v.findViewById(R.id.descItem);
                 Button btItem = v.findViewById(R.id.btItem);
-                TextView idItem = v.findViewById(R.id.idItem);
+                final TextView idItem = v.findViewById(R.id.idItem);
                 v.setTag(arma.getId());
                 v.setId(idMaoDireira);
 
@@ -433,18 +580,45 @@ public class InventarioActivity extends AppCompatActivity {
                     }
                 });
 
+                btItem.setText("Desequipar");
+                btItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
+                        int count = listItem.getChildCount();
+                        boolean jaExiste = false;
+                        for (int i = 0; i < count; i++) {
+                            View view = listItem.getChildAt(i);
+                            TextView id = view.findViewById(R.id.idItem);
+                            TextView qtd = view.findViewById(R.id.quantItem);
+                            if (id.getText().toString().compareTo(idItem.getText().toString()) == 0) {
+                                jaExiste = true;
+                                int quant = Integer.parseInt(qtd.getText().toString()) + 1;
+                                inventarioCRUD.alterarQuantidade("armas", "00" + idItem.getText().toString(), quant);
+                            }
+                        }
+
+                        if (!jaExiste) {
+                            inventarioCRUD.adicionarArma("00" + arma.getId());
+                        }
+                        itensEquipadorsCRUD.desequiparMaoDireita();
+
+                    }
+                });
+
                 itensEquipadosView.addView(v);
+                Log.d("Equipou", "Equipou");
             }
 
             if(arma.getId() == Integer.parseInt(itensEquipados.getMaoEsquerda())){
-                View v = View.inflate(this, R.layout.item_equipado, null);
+                achou2 = true;
+                final View v = View.inflate(this, R.layout.item_equipado, null);
                 v.setLayoutParams(params);
 
-                TextView nomeItem= v.findViewById(R.id.nomeItem);
-                ImageView imgItem = v.findViewById(R.id.imageView);
+                final TextView nomeItem= v.findViewById(R.id.nomeItem);
+                final ImageView imgItem = v.findViewById(R.id.imageView);
                 TextView descItem = v.findViewById(R.id.descItem);
                 Button btItem = v.findViewById(R.id.btItem);
-                TextView idItem = v.findViewById(R.id.idItem);
+                final TextView idItem = v.findViewById(R.id.idItem);
                 v.setTag(arma.getId());
                 v.setId(idMaoEsquerda);
 
@@ -484,11 +658,83 @@ public class InventarioActivity extends AppCompatActivity {
                     }
                 });
 
+                btItem.setText("Desequipar");
+                btItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
+                        int count = listItem.getChildCount();
+                        boolean jaExiste = false;
+                        for (int i = 0; i < count; i++) {
+                            View view = listItem.getChildAt(i);
+                            TextView id = view.findViewById(R.id.idItem);
+                            TextView qtd = view.findViewById(R.id.quantItem);
+                            if (id.getText().toString().compareTo(idItem.getText().toString()) == 0) {
+                                jaExiste = true;
+                                int quant = Integer.parseInt(qtd.getText().toString()) + 1;
+                                inventarioCRUD.alterarQuantidade("armas", "00" + idItem.getText().toString(), quant);
+                            }
+                        }
+
+                        if (!jaExiste) {
+                            inventarioCRUD.adicionarArma("00" + arma.getId());
+                        }
+                        itensEquipadorsCRUD.desequiparMaoEsquerda();
+
+                    }
+                });
+
                 itensEquipadosView.addView(v);
+                Log.d("Equipou", "Equipou");
             }
         }
 
-        boolean achou = false;
+        if(!achou){
+            View v = View.inflate(this, R.layout.item_equipado, null);
+            v.setLayoutParams(params);
+
+            TextView nomeItem = v.findViewById(R.id.nomeItem);
+            ImageView imgItem = v.findViewById(R.id.imageView);
+
+            LinearLayout detalheItem = v.findViewById(R.id.detalheItem);
+            LinearLayout dadosItem = v.findViewById(R.id.dadosItem);
+
+            nomeItem.setText("Mão Direita:\n\n" + "Nada Equipado");
+            imgItem.setImageResource(android.R.color.transparent);
+            detalheItem.setVisibility(LinearLayout.GONE);
+            dadosItem.setVisibility(LinearLayout.VISIBLE);
+            dadosItem.setOnClickListener(null);
+            v.setTag("");
+            v.setId(idMaoDireira);
+            Log.d("idMaoDireita", v.getId() +"");
+
+            itensEquipadosView.addView(v);
+            Log.d("Equipou", "Equipou");
+        }
+
+        if(!achou2){
+            View v = View.inflate(this, R.layout.item_equipado, null);
+            v.setLayoutParams(params);
+
+            TextView nomeItem = v.findViewById(R.id.nomeItem);
+            ImageView imgItem = v.findViewById(R.id.imageView);
+
+            LinearLayout detalheItem = v.findViewById(R.id.detalheItem);
+            LinearLayout dadosItem = v.findViewById(R.id.dadosItem);
+
+            nomeItem.setText("Mão Esquerda:\n\n" + "Nada Equipado");
+            imgItem.setImageResource(android.R.color.transparent);
+            detalheItem.setVisibility(LinearLayout.GONE);
+            dadosItem.setVisibility(LinearLayout.VISIBLE);
+            dadosItem.setOnClickListener(null);
+            v.setTag("");
+            v.setId(idMaoEsquerda);
+            Log.d("idMaoEsquerda", v.getId() +"");
+
+            itensEquipadosView.addView(v);
+            Log.d("Equipou", "Equipou");
+        }
+
+        achou = false;
         for(final Armadura armadura : armaduras){
 
             if(armadura.getId() == Integer.parseInt(itensEquipados.getArmadura())){
@@ -540,14 +786,6 @@ public class InventarioActivity extends AppCompatActivity {
                 btItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
-                        nomeItem.setText("Armadura:\n\n" + "Nada Equipado");
-                        imgItem.setImageResource(android.R.color.transparent);
-                        detalheItem.setVisibility(LinearLayout.GONE);
-                        dadosItem.setVisibility(LinearLayout.VISIBLE);
-                        dadosItem.setOnClickListener(null);
-                        final LinearLayout listItem = findViewById(R.id.listItem);
-                        v.setTag("");
-
                         int count = listItem.getChildCount();
                         boolean jaExiste = false;
                         for (int i = 0; i < count; i++) {
@@ -557,7 +795,6 @@ public class InventarioActivity extends AppCompatActivity {
                             if (id.getText().toString().compareTo(idItem.getText().toString()) == 0) {
                                 jaExiste = true;
                                 int quant = Integer.parseInt(qtd.getText().toString()) + 1;
-                                qtd.setText(Integer.toString(quant));
                                 inventarioCRUD.alterarQuantidade("armaduras", "00" + idItem.getText().toString(), quant);
                             }
                         }
@@ -613,18 +850,19 @@ public class InventarioActivity extends AppCompatActivity {
                 });
 
                 itensEquipadosView.addView(v);
+                Log.d("Equipou", "Equipou");
             }
         }
 
         if(!achou){
-            final View v = View.inflate(this, R.layout.item_equipado, null);
+            View v = View.inflate(this, R.layout.item_equipado, null);
             v.setLayoutParams(params);
 
-            final TextView nomeItem = v.findViewById(R.id.nomeItem);
-            final ImageView imgItem = v.findViewById(R.id.imageView);
+            TextView nomeItem = v.findViewById(R.id.nomeItem);
+            ImageView imgItem = v.findViewById(R.id.imageView);
 
-            final LinearLayout detalheItem = v.findViewById(R.id.detalheItem);
-            final LinearLayout dadosItem = v.findViewById(R.id.dadosItem);
+            LinearLayout detalheItem = v.findViewById(R.id.detalheItem);
+            LinearLayout dadosItem = v.findViewById(R.id.dadosItem);
 
             nomeItem.setText("Armadura:\n\n" + "Nada Equipado");
             imgItem.setImageResource(android.R.color.transparent);
@@ -633,8 +871,10 @@ public class InventarioActivity extends AppCompatActivity {
             dadosItem.setOnClickListener(null);
             v.setTag("");
             v.setId(idArmadura);
+            Log.d("idArmadura", v.getId() +"");
 
             itensEquipadosView.addView(v);
+            Log.d("Equipou", "Equipou");
         }
     }
 
@@ -654,5 +894,71 @@ public class InventarioActivity extends AppCompatActivity {
         textPoder.setText(jogador.getPodermagico() + "/" + "100");
     }
 
+    public final void updateUI(){
+        listItem.removeAllViews();
+        itensEquipadosView.removeAllViews();
+        configurarItemList();
+        configurarItensEquipados();
+    }
+
+    public void IniciarListeners(String uid) {
+        this.uid = uid;
+
+        referenceUID1 = reference1.child(uid);
+        referenceUID1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                itens.clear();
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    for (DataSnapshot data2 : data.getChildren()){
+                        switch (data.getKey()){
+                            case "consumiveis":
+                                Log.d("inventario", "consumivel: " + data2.getKey());
+                                itens.add(new ItemInventario(Integer.parseInt(data2.getKey()), (int)(long)data2.getValue(), "consumivel", R.drawable.esqueleto));
+                                posicao1 = itens.size();
+                                Log.d("inventario", "consumivel: " + posicao1);
+                                break;
+
+                            case "armas":
+                                itens.add(new ItemInventario(Integer.parseInt(data2.getKey()), (int)(long)data2.getValue(), "arma", R.drawable.esqueleto));
+                                break;
+
+                            case "armaduras":
+                                Log.d("inventario", "armadura: " + data2.getKey());
+                                itens.add(new ItemInventario(Integer.parseInt(data2.getKey()), (int)(long)data2.getValue(), "armadura", R.drawable.esqueleto));
+                                posicao1 = itens.size();
+                                Log.d("inventario", "armadura: " + posicao1);
+                                break;
+
+                            default:
+                                itens.add(new ItemInventario(99, 2, data.getKey(), 22));
+                                break;
+                        }
+
+                    }
+                }
+                updateUI();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        reference2 = reference2.child(uid);
+        reference2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                itensEquipados = dataSnapshot.getValue(ItensEquipados.class);
+                updateUI();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }

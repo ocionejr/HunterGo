@@ -104,6 +104,7 @@ public class InventarioCRUD {
     }
 
     public void adicionarArma(String id){
-        referenceUID.child("arma").child(id).setValue(1);
+        referenceUID.child("armas").child(id).setValue(1);
     }
+
 }
