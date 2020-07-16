@@ -211,7 +211,6 @@ public class InventarioActivity extends AppCompatActivity {
                                         int qtd = Integer.parseInt(qtdItem.getText().toString()) - 1;
                                         inventarioCRUD.alterarQuantidade("armaduras", "00" + idItem.getText(), qtd);
                                     }
-<<<<<<< HEAD
 
                                     final TextView nomeItem = v3.findViewById(R.id.nomeItem);
                                     final ImageView imgItem = v3.findViewById(R.id.imageView);
@@ -328,126 +327,7 @@ public class InventarioActivity extends AppCompatActivity {
 
                                         }
                                     });
-||||||| merged common ancestors
 
-                                    final TextView nomeItem = v3.findViewById(R.id.nomeItem);
-                                    final ImageView imgItem = v3.findViewById(R.id.imageView);
-                                    TextView descItem = v3.findViewById(R.id.descItem);
-                                    Button btItem = v3.findViewById(R.id.btItem);
-                                    final TextView idItem = v3.findViewById(R.id.idItem);
-                                    v3.setTag(armadura.getId());
-                                    v3.setId(idArmadura);
-
-                                    final LinearLayout detalheItem = v3.findViewById(R.id.detalheItem);
-                                    final LinearLayout dadosItem = v3.findViewById(R.id.dadosItem);
-
-                                    nomeItem.setText("Armadura:\n\n" + armadura.getNome());
-                                    idItem.setText(""+armadura.getId());
-
-                                    switch(armadura.getId()){
-                                        case 1: imgItem.setImageResource(R.drawable.esqueleto); break;
-                                        case 2: imgItem.setImageResource(R.drawable.esqueleto); break;
-                                        case 3: imgItem.setImageResource(R.drawable.esqueleto); break;
-                                    }
-
-                                    String desc = "Defesa: " + armadura.getDefesa() +
-                                            "\nVelocidade: "  +  armadura.getVelocidade();
-                                    descItem.setText(desc);
-
-                                    dadosItem.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            dadosItem.setVisibility(LinearLayout.GONE);
-                                            detalheItem.setVisibility(LinearLayout.VISIBLE);
-
-                                        }
-                                    });
-
-                                    detalheItem.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            detalheItem.setVisibility(LinearLayout.GONE);
-                                            dadosItem.setVisibility(LinearLayout.VISIBLE);
-                                        }
-                                    });
-
-                                    btItem.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v2) {
-                                            nomeItem.setText("Armadura:\n\n" + "Nada Equipado");
-                                            imgItem.setImageResource(android.R.color.transparent);
-                                            detalheItem.setVisibility(LinearLayout.GONE);
-                                            dadosItem.setVisibility(LinearLayout.VISIBLE);
-                                            dadosItem.setOnClickListener(null);
-                                            final LinearLayout listItem = findViewById(R.id.listItem);
-                                            v3.setTag("");
-
-                                            int count = listItem.getChildCount();
-                                            boolean jaExiste = false;
-                                            for (int i = 0; i < count; i++) {
-                                                View view = listItem.getChildAt(i);
-                                                TextView id = view.findViewById(R.id.idItem);
-                                                TextView qtd = view.findViewById(R.id.quantItem);
-                                                if (id.getText().toString().compareTo(idItem.getText().toString()) == 0) {
-                                                    jaExiste = true;
-                                                    int quant = Integer.parseInt(qtd.getText().toString()) + 1;
-                                                    qtd.setText(Integer.toString(quant));
-                                                    inventarioCRUD.alterarQuantidade("armaduras", "00" + idItem.getText().toString(), quant);
-                                                }
-                                            }
-
-                                            if (!jaExiste) {
-                                                final View v4 = View.inflate(getApplicationContext(), R.layout.view_item, null);
-                                                final TextView nomeItem2 = v4.findViewById(R.id.nomeItem);
-                                                final TextView qtdItem2 = v4.findViewById(R.id.quantItem);
-                                                ImageView imgItem2 = v4.findViewById(R.id.imageView);
-                                                TextView descItem2 = v4.findViewById(R.id.descItem);
-                                                final TextView idItem2 = v4.findViewById(R.id.idItem);
-                                                Button btItem2 = v4.findViewById(R.id.btItem);
-                                                final LinearLayout detalheItem2 = v4.findViewById(R.id.detalheItem);
-                                                LinearLayout dadosItem2 = v4.findViewById(R.id.dadosItem);
-
-                                                nomeItem2.setText(armadura.getNome());
-                                                qtdItem2.setText("1");
-                                                switch (armadura.getId()) {
-                                                    case 1:
-                                                        imgItem2.setImageResource(R.drawable.esqueleto);
-                                                        break;
-                                                    case 2:
-                                                        imgItem2.setImageResource(R.drawable.esqueleto);
-                                                        break;
-                                                    case 3:
-                                                        imgItem2.setImageResource(R.drawable.esqueleto);
-                                                        break;
-                                                }
-                                                idItem2.setText("" + armadura.getId());
-                                                String desc = "Defesa: " + armadura.getDefesa() +
-                                                        "\nVelocidade: " + armadura.getVelocidade();
-                                                descItem2.setText(desc);
-                                                btItem2.setText("Equipar");
-
-                                                dadosItem2.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        if (detalheItem2.getVisibility() == LinearLayout.GONE) {
-                                                            detalheItem2.setVisibility(LinearLayout.VISIBLE);
-                                                        } else {
-                                                            detalheItem2.setVisibility(LinearLayout.GONE);
-                                                        }
-                                                    }
-                                                });
-
-                                                listItem.addView(v4);
-                                                inventarioCRUD.adicionarArmadura("00" + armadura.getId());
-                                            }
-
-                                            itensEquipadorsCRUD.desequiparArmadura();
-
-                                        }
-                                    });
-=======
-                                    Log.d("Armadura", "c");
->>>>>>> Erro Implementação 2
                                 }
                             }
                         });
