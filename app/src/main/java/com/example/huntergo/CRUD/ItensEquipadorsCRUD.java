@@ -14,6 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 public class ItensEquipadorsCRUD {
 
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("basededados").child("itensEquipados");
+    private DatabaseReference referenceuid;
     private static ItensEquipadorsCRUD INSTANCE;
     private ItensEquipados itensEquipados;
 
@@ -45,8 +46,8 @@ public class ItensEquipadorsCRUD {
 
     public void IniciarListeners(String uid) {
 
-        reference = reference.child(uid);
-        reference.addValueEventListener(new ValueEventListener() {
+        referenceuid = reference.child(uid);
+        referenceuid.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 itensEquipados = dataSnapshot.getValue(ItensEquipados.class);
@@ -64,16 +65,27 @@ public class ItensEquipadorsCRUD {
     }
 
     public void desequiparArmadura(){
-        reference.child("armadura").setValue("0");
+        referenceuid.child("armadura").setValue("0");
     }
+
     public void desequiparMaoEsquerda(){
-        reference.child("maoEsquerda").setValue("0");
+        referenceuid.child("maoEsquerda").setValue("0");
     }
+
     public void desequiparMaoDireita(){
-        reference.child("maoDireita").setValue("0");
+        referenceuid.child("maoDireita").setValue("0");
     }
+
     public void equiparArmadura(String armaduraId){
-        reference.child("armadura").setValue(armaduraId);
+        referenceuid.child("armadura").setValue(armaduraId);
+    }
+
+    public void equiparMaoDireita(String armaId){
+        referenceuid.child("maoDireita").setValue(armaId);
+    }
+
+    public void equiparMaoEsquerda(String armaId){
+        referenceuid.child("maoEsquerda").setValue(armaId);
     }
 
 }

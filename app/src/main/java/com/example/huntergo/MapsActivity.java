@@ -17,7 +17,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.huntergo.CRUD.InventarioCRUD;
+import com.example.huntergo.CRUD.JogadorCRUD;
 import com.example.huntergo.Classes.ItemInventario;
+import com.example.huntergo.Classes.Jogador;
 import com.example.huntergo.Classes.Monstro;
 import com.example.huntergo.CRUD.MonstroCRUD;
 
@@ -52,8 +54,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker marker;
     private InventarioCRUD inventarioCRUD;
     private Marker markerMonstro;
-
-
+    private JogadorCRUD jogadorCRUD;
+    private Jogador jogador;
+    private BitmapDescriptor imagemJog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         inventarioCRUD = InventarioCRUD.getINSTANCE();
         inventarioCRUD.IniciarListeners(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        jogadorCRUD = JogadorCRUD.getINSTANCE();
 
         configurarBottomNav();
 
@@ -163,8 +167,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                       marker.remove();
                                   }
 
+                                  jogador = jogadorCRUD.getJogador();
+
+                                  switch (jogador.getClasse()){
+                                      case "Caçador": imagemJog = BitmapDescriptorFactory.fromResource(R.drawable.leather_bow);
+                                          break;
+
+                                      case "Guerreiro": imagemJog = BitmapDescriptorFactory.fromResource(R.drawable.metal_one);
+                                          break;
+
+                                      case "Mago": imagemJog = BitmapDescriptorFactory.fromResource(R.drawable.cloth_staff);
+                                          break;
+
+                                  }
+
                                   marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Jogador")
-                                  .icon(BitmapDescriptorFactory.fromResource(R.drawable.chartest)));
+                                  .icon(imagemJog));
                                   mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                                   mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f));
                                   mMap.getUiSettings().setZoomControlsEnabled(true);

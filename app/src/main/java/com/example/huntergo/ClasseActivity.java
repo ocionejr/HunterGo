@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.example.huntergo.CRUD.InventarioCRUD;
+import com.example.huntergo.CRUD.ItensEquipadorsCRUD;
 import com.example.huntergo.CRUD.JogadorCRUD;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -21,6 +22,7 @@ public class ClasseActivity extends AppCompatActivity {
     private static final String[] classes = {"Guerreiro", "Caçador", "Mago"};
     private JogadorCRUD jogadorCRUD;
     private InventarioCRUD inventarioCRUD;
+    private ItensEquipadorsCRUD itensEquipadorsCRUD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class ClasseActivity extends AppCompatActivity {
         configurarSpinner();
         jogadorCRUD = JogadorCRUD.getINSTANCE();
         inventarioCRUD = InventarioCRUD.getINSTANCE();
+        itensEquipadorsCRUD = ItensEquipadorsCRUD.getINSTANCE();
 
     }
 
@@ -58,14 +61,17 @@ public class ClasseActivity extends AppCompatActivity {
             case "Guerreiro":
                 Log.d("classeselecionada", classeSelecionada);
                 jogadorCRUD.criarGuerreiro(uid);
+                itensEquipadorsCRUD.criarEquipGuerreiro(uid);
             break;
             case "Caçador":
                 Log.d("classeselecionada", classeSelecionada);
                 jogadorCRUD.criarCaçador(uid);
+                itensEquipadorsCRUD.criarEquipCacador(uid);
             break;
             case "Mago":
                 Log.d("classeselecionada", classeSelecionada);
                 jogadorCRUD.criarMago(uid);
+                itensEquipadorsCRUD.criarEquipMago(uid);
             break;
         }
 
