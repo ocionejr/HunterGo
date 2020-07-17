@@ -2,6 +2,7 @@ package com.example.huntergo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -226,6 +227,32 @@ public class CombateActivity extends AppCompatActivity {
                 Intent intent=new Intent();
                 setResult(2,intent);
                 finish();//finishing activity
+            }
+        }
+    }
+
+    public void btnItens(View v){
+        Intent intent = new Intent(getApplicationContext(), InvcomActivity.class);
+        startActivityForResult(intent, 1);// Activity is started with requestCode 2
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==1){
+            try {
+                switch (resultCode) {
+                    case 1:
+                        hp_p.setProgress(jogador.getVida());
+                        break;
+                    case 2:
+                        mp_p.setProgress(jogador.getMana());
+                        break;
+                    }
+            } catch (Exception e)
+            {
+                Log.d("krvrrusbviuritiribtr", e.getMessage());
             }
         }
     }
