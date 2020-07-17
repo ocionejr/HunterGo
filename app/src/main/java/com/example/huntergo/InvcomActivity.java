@@ -91,10 +91,18 @@ public class InvcomActivity extends AppCompatActivity {
         if(aux > 0){
             inventarioCRUD.alterarQuantidade("consumiveis", "001", aux-1);
             int vida = jogador.getVida() + 10;
+            String auxinf = "1";
             jogador.setVida(vida);
             jogadorCRUD.alteraVida(vida);
             Intent intent=new Intent();
-            setResult(1,intent);
+            intent.putExtra("inf", auxinf);
+            setResult(Activity.RESULT_OK,intent);
+            finish();//finishing activity
+        }else{
+            String auxinf = "3";
+            Intent intent=new Intent();
+            intent.putExtra("inf", auxinf);
+            setResult(Activity.RESULT_OK,intent);
             finish();//finishing activity
         }
     }
@@ -113,16 +121,26 @@ public class InvcomActivity extends AppCompatActivity {
         if(aux2 > 0){
             inventarioCRUD.alterarQuantidade("consumiveis", "002", aux2-1);
             int mana = jogador.getMana() + 10;
+            String auxinf = "2";
             jogador.setMana(mana);
             jogadorCRUD.alteraMana(mana);
             Intent intent=new Intent();
-            setResult(2,intent);
+            intent.putExtra("inf", auxinf);
+            setResult(Activity.RESULT_OK,intent);
+            finish();//finishing activity
+        }else{
+            String auxinf = "3";
+            Intent intent=new Intent();
+            intent.putExtra("inf", auxinf);
+            setResult(Activity.RESULT_OK,intent);
             finish();//finishing activity
         }
     }
 
     public void exit(View v){
+        String auxinf = "0";
         Intent intent=new Intent();
+        intent.putExtra("inf", auxinf);
         setResult(Activity.RESULT_CANCELED,intent);
         finish();//finishing activity
     }

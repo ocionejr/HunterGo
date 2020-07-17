@@ -241,18 +241,19 @@ public class CombateActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
         if(requestCode==1){
-            try {
-                switch (resultCode) {
-                    case 1:
-                        hp_p.setProgress(jogador.getVida());
-                        break;
-                    case 2:
-                        mp_p.setProgress(jogador.getMana());
-                        break;
-                    }
-            } catch (Exception e)
-            {
-                Log.d("krvrrusbviuritiribtr", e.getMessage());
+            jogador = jogadorCRUD.getJogador();
+
+            Bundle extras = data.getExtras();
+            Log.d("Resultado", (String) extras.get("inf"));
+            String aux = (String) extras.get("inf");
+            if(aux.equals("1")){
+                hp_p.setProgress(jogador.getVida());
+                evt.setText(" Usou uma poção de Vida!");
+            }else if(aux.equals("2")){
+                mp_p.setProgress(jogador.getMana());
+                evt.setText(" Usou uma poção de Mana!");
+            }else if(aux.equals("3")){
+                evt.setText(" Poções insuficientes!");
             }
         }
     }

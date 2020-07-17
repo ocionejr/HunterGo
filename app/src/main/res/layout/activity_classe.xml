@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/telalogin"
     tools:context=".ClasseActivity">
 
     <Spinner
@@ -22,8 +23,10 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="64dp"
+        android:background="@color/botaopopup"
         android:onClick="onClickSelecionar"
         android:text="Selecionar"
+        android:textColor="@color/branco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -47,6 +50,7 @@
             android:layout_marginBottom="30dp"
             android:gravity="center_horizontal"
             android:text="Bem  Vindo ao Hunter GO!"
+            android:textColor="@color/branco"
             android:textSize="25sp" />
 
         <TextView
@@ -56,6 +60,7 @@
             android:layout_marginBottom="30dp"
             android:gravity="center_horizontal"
             android:text="Selecione sua classe"
+            android:textColor="@color/branco"
             android:textSize="25sp" />
 
     </LinearLayout>
