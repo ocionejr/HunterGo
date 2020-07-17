@@ -61,17 +61,14 @@ public class ClasseActivity extends AppCompatActivity {
             case "Guerreiro":
                 Log.d("classeselecionada", classeSelecionada);
                 jogadorCRUD.criarGuerreiro(uid);
-                itensEquipadorsCRUD.criarEquipGuerreiro(uid);
             break;
             case "Caçador":
                 Log.d("classeselecionada", classeSelecionada);
                 jogadorCRUD.criarCaçador(uid);
-                itensEquipadorsCRUD.criarEquipCacador(uid);
             break;
             case "Mago":
                 Log.d("classeselecionada", classeSelecionada);
                 jogadorCRUD.criarMago(uid);
-                itensEquipadorsCRUD.criarEquipMago(uid);
             break;
         }
 
