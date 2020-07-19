@@ -10,8 +10,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -57,6 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private JogadorCRUD jogadorCRUD;
     private Jogador jogador;
     private BitmapDescriptor imagemJog;
+    private MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         supportMapFragment.getMapAsync(MapsActivity.this);
         checkPermission();
 
+        player = MediaPlayer.create(this, R.raw.mapa);
+        player.setLooping(true);
+        player.start();
     }
 
     public void checkPermission(){
@@ -320,6 +326,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean onMarkerClick(Marker marker) {
 
         if(marker.getTag() != "Jogador"){
+            player.stop();
             Monstro monstro = (Monstro) marker.getTag();
             Intent intent = new Intent(getApplicationContext(), CombateActivity.class);
             intent.putExtra("monstro", monstro);
@@ -331,13 +338,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
+        player = MediaPlayer.create(this, R.raw.mapa);
+        player.setLooping(true);
+        player.start();
         if(requestCode==2){
             if(resultCode == 2) {
+                player.stop();
                 Intent intent = new Intent(getApplicationContext(), VitoriaActivity.class);
                 startActivityForResult(intent, 2);// Activity is started with requestCode 2
             }else if(resultCode == 1){
+                player.stop();
                 Intent intent = new Intent(getApplicationContext(), DerrotaActivity.class);
                 startActivityForResult(intent, 2);// Activity is started with requestCode 2
             }

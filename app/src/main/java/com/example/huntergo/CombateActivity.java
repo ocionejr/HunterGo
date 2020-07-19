@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.huntergo.CRUD.ArmaCRUD;
 import com.example.huntergo.CRUD.ArmaduraCRUD;
@@ -47,6 +49,7 @@ public class CombateActivity extends AppCompatActivity {
     private ArmaduraCRUD armorCRUD;
     private ArrayList armor;
     private Button spatk;
+    private MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +91,7 @@ public class CombateActivity extends AppCompatActivity {
         }else if(jogador.getClasse().equals("Caçador")){
             spatk.setText("Flecha Vorpal");
         }else if(jogador.getClasse().equals("Mago")){
-            spatk.setText("Bola de Fosgo");
+            spatk.setText("Bola de Fogo");
         }
 
         if(monstro.getNome().equals("Esqueleto")){
@@ -101,6 +104,9 @@ public class CombateActivity extends AppCompatActivity {
             img_monstro.setImageResource(R.drawable.smile_combate);
         }
 
+        player = MediaPlayer.create(this, R.raw.batalha);
+        player.start();
+
         Log.d("combate", monstro.getNome());
         Log.d("combate", jogador.getClasse());
     }
@@ -109,6 +115,7 @@ public class CombateActivity extends AppCompatActivity {
         evt.setText(" Fugindo! Covarde!");
         Intent intent=new Intent();
         setResult(0,intent);
+        player.stop();
         finish();//finishing activity
     }
 
@@ -131,12 +138,17 @@ public class CombateActivity extends AppCompatActivity {
             hp_monster = hp_monster - jogador.getAtaque() - danoArma - danoArma2;
             hp_m.setProgress(hp_monster);
             if(hp_m.getProgress() <= 0){
+                player.stop();
                 Intent intent=new Intent();
                 setResult(2,intent);
                 finish();//finishing activity
             }
+
             int vida = jogador.getVida() + (jogador.getDefesa() / 2);
             vida = vida - monstro.getAtaque();
+            if(vida > 100){
+                vida = 100;
+            }
             jogador.setVida(vida);
             hp_p.setProgress(jogador.getVida());
             jogadorCRUD.alteraVida(jogador.getVida());
@@ -161,6 +173,7 @@ public class CombateActivity extends AppCompatActivity {
             hp_p.setProgress(jogador.getVida());
             jogadorCRUD.alteraVida(jogador.getVida());
             if(hp_p.getProgress() <= 0){
+                player.stop();
                 Intent intent=new Intent();
                 setResult(1,intent);
                 finish();//finishing activity
@@ -168,6 +181,7 @@ public class CombateActivity extends AppCompatActivity {
             hp_monster = hp_monster - jogador.getAtaque() - danoArma - danoArma2;
             hp_m.setProgress(hp_monster);
             if(hp_m.getProgress() <= 0){
+                player.stop();
                 Intent intent=new Intent();
                 setResult(2,intent);
                 finish();//finishing activity
@@ -183,50 +197,59 @@ public class CombateActivity extends AppCompatActivity {
     }
 
     public void especial(View v){
-        int vi = monstro.getAtaque();
-        evt.setText(" Ataque especial! +"+jogador.getPodermagico()+"   -"+vi);
-        if(jogador.getVelocidade() >= monstro.getVelocidade()){
-            hp_monster = hp_monster - jogador.getPodermagico();
-            hp_m.setProgress(hp_monster);
-            jogador.setMana(jogador.getMana() - 20);
-            mp_p.setProgress(jogador.getMana());
-            jogadorCRUD.alteraMana(jogador.getMana());
-            if(hp_m.getProgress() <= 0){
-                Intent intent=new Intent();
-                setResult(2,intent);
-                finish();//finishing activity
+
+        if(jogador.getMana() < 20){
+            Toast.makeText(getApplicationContext(), "Mana Insuficiente", Toast.LENGTH_SHORT ).show();
+        }else {
+            int vi = monstro.getAtaque();
+            evt.setText(" Ataque especial! +" + jogador.getPodermagico() + "   -" + vi);
+            if (jogador.getVelocidade() >= monstro.getVelocidade()) {
+                hp_monster = hp_monster - jogador.getPodermagico();
+                hp_m.setProgress(hp_monster);
+                jogador.setMana(jogador.getMana() - 20);
+                mp_p.setProgress(jogador.getMana());
+                jogadorCRUD.alteraMana(jogador.getMana());
+                if (hp_m.getProgress() <= 0) {
+                    player.stop();
+                    Intent intent = new Intent();
+                    setResult(2, intent);
+                    finish();//finishing activity
+                }
+                int vida = jogador.getVida() + (jogador.getDefesa() / 2);
+                vida = vida - monstro.getAtaque();
+                jogador.setVida(vida);
+                hp_p.setProgress(jogador.getVida());
+                jogadorCRUD.alteraVida(jogador.getVida());
+                if (hp_p.getProgress() <= 0) {
+                    player.stop();
+                    Intent intent = new Intent();
+                    setResult(1, intent);
+                    finish();//finishing activity
+                }
             }
-            int vida = jogador.getVida() + (jogador.getDefesa() / 2);
-            vida = vida - monstro.getAtaque();
-            jogador.setVida(vida);
-            hp_p.setProgress(jogador.getVida());
-            jogadorCRUD.alteraVida(jogador.getVida());
-            if(hp_p.getProgress() <= 0){
-                Intent intent=new Intent();
-                setResult(1,intent);
-                finish();//finishing activity
-            }
-        }
-        if(jogador.getVelocidade() < monstro.getVelocidade()){
-            int vida = jogador.getVida() + (jogador.getDefesa() / 2);
-            vida = vida - monstro.getAtaque();
-            jogador.setVida(vida);
-            hp_p.setProgress(jogador.getVida());
-            jogadorCRUD.alteraVida(jogador.getVida());
-            if(hp_p.getProgress() <= 0){
-                Intent intent=new Intent();
-                setResult(1,intent);
-                finish();//finishing activity
-            }
-            hp_monster = hp_monster - jogador.getPodermagico();
-            hp_m.setProgress(hp_monster);
-            jogador.setMana(jogador.getMana() - 20);
-            mp_p.setProgress(jogador.getMana());
-            jogadorCRUD.alteraMana(jogador.getMana());
-            if(hp_m.getProgress() <= 0){
-                Intent intent=new Intent();
-                setResult(2,intent);
-                finish();//finishing activity
+            if (jogador.getVelocidade() < monstro.getVelocidade()) {
+                int vida = jogador.getVida() + (jogador.getDefesa() / 2);
+                vida = vida - monstro.getAtaque();
+                jogador.setVida(vida);
+                hp_p.setProgress(jogador.getVida());
+                jogadorCRUD.alteraVida(jogador.getVida());
+                if (hp_p.getProgress() <= 0) {
+                    player.stop();
+                    Intent intent = new Intent();
+                    setResult(1, intent);
+                    finish();//finishing activity
+                }
+                hp_monster = hp_monster - jogador.getPodermagico();
+                hp_m.setProgress(hp_monster);
+                jogador.setMana(jogador.getMana() - 20);
+                mp_p.setProgress(jogador.getMana());
+                jogadorCRUD.alteraMana(jogador.getMana());
+                if (hp_m.getProgress() <= 0) {
+                    player.stop();
+                    Intent intent = new Intent();
+                    setResult(2, intent);
+                    finish();//finishing activity
+                }
             }
         }
     }

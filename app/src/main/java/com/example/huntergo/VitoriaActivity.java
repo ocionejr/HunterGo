@@ -3,6 +3,7 @@ package com.example.huntergo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class VitoriaActivity extends AppCompatActivity {
     private TextView txt;
     private TextView txt2;
     private ArrayList<ItemInventario> itens;
+    private MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,7 @@ public class VitoriaActivity extends AppCompatActivity {
             if(qtde < 2){
                 inventarioCRUD.adicionarArma("001");
             }else {
-                inventarioCRUD.alterarQuantidade("arma", "001", qtde);
+                inventarioCRUD.alterarQuantidade("armas", "001", qtde);
             }
             txt.setText("Você encontrou uma Espada de uma mão!");
         } else if (random == 8) {
@@ -105,7 +107,7 @@ public class VitoriaActivity extends AppCompatActivity {
             if(qtde < 2){
                 inventarioCRUD.adicionarArma("002");
             }else {
-                inventarioCRUD.alterarQuantidade("arma", "002", qtde);
+                inventarioCRUD.alterarQuantidade("armas", "002", qtde);
             }
             txt.setText("Você encontrou uma Espada de duas mãos!");
         } else if (random == 9) {
@@ -119,7 +121,7 @@ public class VitoriaActivity extends AppCompatActivity {
             if(qtde < 2){
                 inventarioCRUD.adicionarArma("003");
             }else {
-                inventarioCRUD.alterarQuantidade("arma", "003", qtde);
+                inventarioCRUD.alterarQuantidade("armas", "003", qtde);
             }
             txt.setText("Você encontrou uma Adaga!");
         } else if (random == 11) {
@@ -133,7 +135,7 @@ public class VitoriaActivity extends AppCompatActivity {
             if(qtde < 2){
                 inventarioCRUD.adicionarArma("004");
             }else {
-                inventarioCRUD.alterarQuantidade("arma", "004", qtde);
+                inventarioCRUD.alterarQuantidade("armas", "004", qtde);
             }
             txt.setText("Você encontrou um Cajado!");
         } else if (random == 15) {
@@ -147,7 +149,7 @@ public class VitoriaActivity extends AppCompatActivity {
             if(qtde < 2){
                 inventarioCRUD.adicionarArma("006");
             }else {
-                inventarioCRUD.alterarQuantidade("arma", "006", qtde);
+                inventarioCRUD.alterarQuantidade("armas", "006", qtde);
             }
             txt.setText("Você encontrou um Arco!");
         }
@@ -195,9 +197,13 @@ public class VitoriaActivity extends AppCompatActivity {
             inventarioCRUD.alterarQuantidade("consumiveis", "002", qtde2);
             txt2.setText("Você encontrou duas Poções de Mana!");
         }
+
+        player = MediaPlayer.create(this, R.raw.vitoria);
+        player.start();
     }
 
     public void upatk(View v){
+        player.stop();
         int atk = jogador.getAtaque() + 1;
         jogadorCRUD.alteraAtk(atk);
         finish();
@@ -205,6 +211,7 @@ public class VitoriaActivity extends AppCompatActivity {
     }
 
     public void updef(View v){
+        player.stop();
         int def = jogador.getDefesa() + 1;
         jogadorCRUD.alteraDef(def);
         finish();
@@ -212,6 +219,7 @@ public class VitoriaActivity extends AppCompatActivity {
     }
 
     public void upspatk(View v){
+        player.stop();
         int spatk = jogador.getPodermagico() + 1;
         jogadorCRUD.alteraSpatk(spatk);
         finish();
